@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class AddTaskScreen extends StatefulWidget {
   final String userId;
 
-  const AddTaskScreen({Key? key, required this.userId}) : super(key: key);
+  const AddTaskScreen({super.key, required this.userId});
 
   @override
   State<AddTaskScreen> createState() => _AddTaskScreenState();

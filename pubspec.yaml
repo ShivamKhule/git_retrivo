@@ -9,11 +9,22 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_auth: ^5.3.3
-  firebase_core: ^3.8.0
   sqflite: ^2.4.1
   firebase_storage: ^12.3.6
   firebase_cloud_firestore: ^5.4.4
+  google_fonts: ^6.2.1
+  image_picker: ^1.1.2
+  intl: ^0.19.0
+  simple_animations: ^5.0.2
+  rive: ^0.13.15
+  page_transition: ^2.1.0
+  flutter_slidable: ^3.1.1
+  firebase_core: ^3.6.0
+  cloud_firestore: ^5.4.4
+  animate_do: ^3.3.4
+  animated_text_kit: ^4.2.2
+  carousel_slider: ^5.0.0
+  firebase_auth: ^5.3.3
 
 dev_dependencies:
   flutter_test:
@@ -22,3 +33,13 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/anuj/homepage/
+    - assets/anuj/reporting_img/
+    - assets/anuj/homepage/caterogyimg/
+    - assets/Gauri/png/
+    - assets/Gauri/riv/
+    - assets/Shivam/images/
+    - assets/Shivam/svgs/
+    - assets/Kaushal/jpeg/
+    - assets/Kaushal/svg/

@@ -83,7 +83,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   CustomSnackbar.showCustomSnackbar(message: "User Register Successfully.", context: context);
                   Navigator.of(context).pop();
                 }on FirebaseAuthException catch (error) {
-                  print("${error.code}");
+                  print(error.code);
                   print("${error.message}");
                   CustomSnackbar.showCustomSnackbar(message: error.message!, context: context);
                 }

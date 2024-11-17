@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../model/players_info_model.dart';
 import '../widgets/custom_snackbar.dart';
 import 'home_page.dart';
 import 'register_screen.dart';
@@ -21,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
       TextEditingController();
   bool _showPassword = true;
 
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   );
                 }on FirebaseAuthException catch (error) {
-                  print("${error.code}");
+                  print(error.code);
                   print("${error.message}");
                   CustomSnackbar.showCustomSnackbar(message: error.message!, context: context);
                 }

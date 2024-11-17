@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'add_task_screen.dart';
 
 class TaskListScreen extends StatelessWidget {
-  const TaskListScreen({Key? key}) : super(key: key);
+  const TaskListScreen({super.key});
 
   final String userId = 'user123'; // Replace with the actual userId as needed
 
