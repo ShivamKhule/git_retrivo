@@ -22,8 +22,9 @@ class LostModel {
   final String? category;
   final String date;
   final String location;
+  final String mapLocation;
   final String description;
-  final String number;
+  String? number;
   String url;
   String? reward;
 
@@ -33,8 +34,9 @@ class LostModel {
     required this.category,
     required this.date,
     required this.location,
+    required this.mapLocation,
     required this.description,
-    required this.number,
+    this.number,
     required this.url,
     this.reward,
   });

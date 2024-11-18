@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../Anuj/FoundModel.dart';
 import '../../Anuj/LostModel.dart';
 import '../Decription Page/description.dart';
+import '../Found Page/found_list.dart';
 // import './Lost_Model.dart';
 
 List<LostModel> lostCards = [
@@ -47,39 +49,38 @@ class LostPage extends StatefulWidget {
 class _LostPageState extends State<LostPage> {
   double screenWidth = 0;
 
-  // void filterSheet() async{
-      
+  void load() async {
+    QuerySnapshot response =
+        await FirebaseFirestore.instance.collection("lostItemsInfo").get();
 
-  //   QuerySnapshot response =
-  //       await FirebaseFirestore.instance.collection("lostItemsInfo").get();
+    // log(response as String);
+    lostCards.clear();
+    for (var value in response.docs) {
+      // print(value['palyerName']);
+      try {
+        lostCards.add(
+          LostModel(
+            id: value.id,
+            name: value['itemName'] ?? "Unknown",
+            category: value['category'] ?? "Uncategorized",
+            date: value['date'] ?? "Unknown date",
+            location: value['location'] ?? "Unknown location",
+            description: value['description'] ?? "No description",
+            mapLocation: value['mapLocation'] ?? "Location not given",
+            number: value['mobileNumber'] ?? "No number",
+            url: value['lostImg'] ?? "",
+            reward: value['reward'] ?? 0,
+          ),
+        );
+      } catch (e) {
+        log("Error processing document ${value.id}: $e");
+      }
+      // log(lostCards as String);
 
-  //   // log(response as String);
-
-  //   for (var value in response.docs) {
-  //     // print(value['palyerName']);
-  //     try {
-  //       lostCards.add(
-  //         LostModel(
-  //           id: value.id,
-  //           name: value['itemName'] ?? "Unknown",
-  //           category: value['category'] ?? "Uncategorized",
-  //           date: value['date'] ?? "Unknown date",
-  //           location: value['location'] ?? "Unknown location",
-  //           description: value['description'] ?? "No description",
-  //           number: value['mobileNumber'] ?? "No number",
-  //           url: value['lostImg'] ?? "",
-  //           reward: value['reward'] ?? 0,
-  //         ),
-  //       );
-  //     } catch (e) {
-  //       log("Error processing document ${value.id}: $e");
-  //     }
-  //     // log(lostCards as String);
-
-  //     // setState(() {});
-  //   }
-  //   // BottomSheet for filter functionality (to be implemented)
-  // }
+      // setState(() {});
+    }
+    // BottomSheet for filter functionality (to be implemented)
+  }
 
   bool startAnimation = false;
 
@@ -128,9 +129,11 @@ class _LostPageState extends State<LostPage> {
   @override
   void initState() {
     super.initState();
+    load();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       setState(() {
         startAnimation = true;
+        //
       });
     });
   }

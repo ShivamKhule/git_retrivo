@@ -38,8 +38,6 @@ class _ReportFoundState extends State<ReportFound>
   TextEditingController locationController = TextEditingController();
   TextEditingController numberController = TextEditingController();
 
-  List<FoundModel> founditems = [];
-
   String? selectedCategory;
   final List<String> _categories = [
     'Electronics',
@@ -419,6 +417,8 @@ class _ReportFoundState extends State<ReportFound>
                               .collection("foundItemsInfo")
                               // .orderBy('timestamp', descending: true)
                               .get();
+                              
+                          foundCards.clear();
 
                           for (var value in response.docs) {
                             // print(value['palyerName']);

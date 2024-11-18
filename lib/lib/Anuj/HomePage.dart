@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:git_retrivo/lib/Kaushal/Found%20Page/found_list.dart';
+import 'package:git_retrivo/lib/Kaushal/Lost%20Page/lost_list.dart';
 // import 'package:homepage/Shivam/Notifications.dart';
 // import 'package:homepage/Shivam/Profile_Page.dart';
 import '../Kaushal/Category/category_list.dart';
@@ -155,17 +157,17 @@ class AppbarClassState extends State<HomepageClass> {
   //For carasouel
 
   Lostpage lostpage = Lostpage(imagesUrls: [
-    'https://images.pexels.com/photos/1042423/pexels-photo-1042423.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/3680912/pexels-photo-3680912.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/1563355/pexels-photo-1563355.jpeg?auto=compress&cs=tinysrgb&w=600',
+    foundCards[0].url.toString(),
+    foundCards[1].url.toString(),
+    foundCards[2].url.toString(),
+     foundCards[3].url.toString(),
   ]);
 
   Lostpage foundpage = Lostpage(imagesUrls: [
-    'https://images.pexels.com/photos/1042423/pexels-photo-1042423.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/3680912/pexels-photo-3680912.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/1563355/pexels-photo-1563355.jpeg?auto=compress&cs=tinysrgb&w=600',
+    lostCards[0].url.toString(),
+    lostCards[1].url.toString(),
+    lostCards[2].url.toString(),
+    lostCards[3].url.toString(),
   ]);
 
   List<String> fieldCategory1 = [
@@ -1072,6 +1074,14 @@ class AppbarClassState extends State<HomepageClass> {
 }
 
 Widget foundCarousel(List<String> images) {
+  // List of found names corresponding to the images
+  List<String> foundname = [
+    lostCards[0].name,
+    lostCards[1].name,
+    lostCards[2].name,
+    lostCards[3].name,
+  ];
+
   return Column(
     children: [
       const SizedBox(
@@ -1132,19 +1142,18 @@ Widget foundCarousel(List<String> images) {
                               blurRadius: 4,
                               offset: Offset(1, 2),
                             ),
-                          ], // Set your desired color
+                          ],
                         ),
                         child: AnimatedTextKit(
                           animatedTexts: [
-                            TyperAnimatedText("is it Your's?"),
+                            TyperAnimatedText("Is it Yours?"),
                           ],
                           isRepeatingAnimation: true,
                           totalRepeatCount: 6,
                           pause: const Duration(seconds: 3),
                         ),
                       ),
-                      const SizedBox(
-                          height: 5), // Add spacing between lines if needed
+                      const SizedBox(height: 5),
                       Container(
                         margin: const EdgeInsets.only(right: 30),
                         child: DefaultTextStyle(
@@ -1159,7 +1168,7 @@ Widget foundCarousel(List<String> images) {
                                 blurRadius: 4,
                                 offset: Offset(1, 2),
                               ),
-                            ], // Set your desired color
+                            ],
                           ),
                           child: AnimatedTextKit(
                             animatedTexts: [
@@ -1182,7 +1191,8 @@ Widget foundCarousel(List<String> images) {
       const SizedBox(
         height: 20,
       ),
-      CarouselSlider(
+      CarouselSlider.builder(
+        itemCount: images.length,
         options: CarouselOptions(
           height: 200.0,
           autoPlay: true,
@@ -1191,83 +1201,86 @@ Widget foundCarousel(List<String> images) {
           autoPlayInterval: const Duration(seconds: 3),
           viewportFraction: 0.8,
         ),
-        items: images.map((url) {
-          return Builder(
-            builder: (BuildContext context) {
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                decoration: BoxDecoration(
+        itemBuilder: (BuildContext context, int index, int realIndex) {
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color:
+                      const Color.fromARGB(255, 214, 214, 214).withOpacity(0.3),
+                  blurRadius: 8,
+                  spreadRadius: 2,
+                  offset: const Offset(4, 4),
+                ),
+              ],
+            ),
+            child: Stack(
+              children: [
+                // Image
+                ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      blurRadius: 8,
-                      spreadRadius: 2,
-                      offset: const Offset(4, 4),
-                    ),
-                  ],
+                  child: Image.network(
+                    images[index],
+                    fit: BoxFit.contain,
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
                 ),
-                child: Stack(
-                  children: [
-                    // Image
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Image.network(
-                        url,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
+                // Gradient Overlay
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    height: 60,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.transparent, Colors.black54],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                      borderRadius: BorderRadius.vertical(
+                        bottom: Radius.circular(15),
                       ),
                     ),
-                    // Gradient Overlay
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        height: 60,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Colors.transparent, Colors.black54],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ),
-                          borderRadius: BorderRadius.vertical(
-                            bottom: Radius.circular(15),
-                          ),
-                        ),
-                      ),
-                    ),
-                    // Label Text (optional)
-                    const Positioned(
-                      bottom: 10,
-                      left: 10,
-                      child: Text(
-                        'Lost Item Name', // Replace with actual item name
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              );
-            },
+                // Label Text
+                Positioned(
+                  bottom: 10,
+                  left: 10,
+                  child: Text(
+                    foundname[
+                        index], // Use the corresponding name for the image
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           );
-        }).toList(),
+        },
       ),
     ],
   );
 }
-
 Widget lostCarousel(List<String> images) {
+  // List of lost item names corresponding to the images
+  List<String> lostname = [
+    foundCards[0].name,
+    foundCards[1].name,
+    foundCards[2].name,
+    foundCards[3].name,
+  ];
+
   return Column(
     children: [
-      const SizedBox(
-        height: 5,
-      ),
+      const SizedBox(height: 5),
       Container(
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Card(
@@ -1323,7 +1336,7 @@ Widget lostCarousel(List<String> images) {
                               blurRadius: 4,
                               offset: Offset(1, 2),
                             ),
-                          ], // Set your desired color
+                          ],
                         ),
                         child: AnimatedTextKit(
                           animatedTexts: [
@@ -1334,8 +1347,7 @@ Widget lostCarousel(List<String> images) {
                           pause: const Duration(seconds: 3),
                         ),
                       ),
-                      const SizedBox(
-                          height: 5), // Add spacing between lines if needed
+                      const SizedBox(height: 5),
                       DefaultTextStyle(
                         style: const TextStyle(
                           fontSize: 22,
@@ -1348,7 +1360,7 @@ Widget lostCarousel(List<String> images) {
                               blurRadius: 4,
                               offset: Offset(1, 2),
                             ),
-                          ], // Set your desired color
+                          ],
                         ),
                         child: AnimatedTextKit(
                           animatedTexts: [
@@ -1368,7 +1380,8 @@ Widget lostCarousel(List<String> images) {
         ),
       ),
       const SizedBox(height: 20),
-      CarouselSlider(
+      CarouselSlider.builder(
+        itemCount: images.length,
         options: CarouselOptions(
           height: 200.0,
           autoPlay: true,
@@ -1377,72 +1390,68 @@ Widget lostCarousel(List<String> images) {
           autoPlayInterval: const Duration(seconds: 3),
           viewportFraction: 0.8,
         ),
-        items: images.map((url) {
-          return Builder(
-            builder: (BuildContext context) {
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                decoration: BoxDecoration(
+        itemBuilder: (BuildContext context, int index, int realIndex) {
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 8,
+                  spreadRadius: 2,
+                  offset: const Offset(4, 4),
+                ),
+              ],
+            ),
+            child: Stack(
+              children: [
+                // Image
+                ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      blurRadius: 8,
-                      spreadRadius: 2,
-                      offset: const Offset(4, 4),
-                    ),
-                  ],
+                  child: Image.network(
+                    images[index],
+                    fit: BoxFit.fill,
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
                 ),
-                child: Stack(
-                  children: [
-                    // Image
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Image.network(
-                        url,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
+                // Gradient Overlay
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    height: 60,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.transparent, Colors.black54],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                      borderRadius: BorderRadius.vertical(
+                        bottom: Radius.circular(15),
                       ),
                     ),
-                    // Gradient Overlay
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        height: 60,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Colors.transparent, Colors.black54],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ),
-                          borderRadius: BorderRadius.vertical(
-                            bottom: Radius.circular(15),
-                          ),
-                        ),
-                      ),
-                    ),
-                    // Label Text (optional)
-                    const Positioned(
-                      bottom: 10,
-                      left: 10,
-                      child: Text(
-                        'Found Item Name', // Replace with actual item name
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              );
-            },
+                // Label Text
+                Positioned(
+                  bottom: 10,
+                  left: 10,
+                  child: Text(
+                    lostname[index], // Display the corresponding name for the image
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           );
-        }).toList(),
+        },
       ),
     ],
   );

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,6 +22,38 @@ class _FoundPageState extends State<FoundPage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+
+   void load() async {
+    QuerySnapshot response = await FirebaseFirestore.instance
+        .collection("foundItemsInfo")
+        // .orderBy('timestamp', descending: true)
+        .get();
+
+    foundCards.clear();
+
+    for (var value in response.docs) {
+      // print(value['palyerName']);
+      foundCards.add(
+        FoundModel(
+          id: value.id,
+          name: value['itemName'],
+          category: value['category'],
+          date: value['date'],
+          location: value['location'],
+          description: value['description'],
+          url: value['foundImg'],
+          number: value['mobileNumber'],
+        ),
+      );
+      print(foundCards);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    load();
+  }
 
   double screenWidth = 0;
 
