@@ -24,7 +24,7 @@ class LostModel {
   final String location;
   final String description;
   final String number;
-  String? url;
+  String url;
   String? reward;
 
   LostModel({
@@ -35,7 +35,7 @@ class LostModel {
     required this.location,
     required this.description,
     required this.number,
-    this.url,
+    required this.url,
     this.reward,
   });
 }

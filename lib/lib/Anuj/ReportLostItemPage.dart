@@ -414,8 +414,8 @@ class _ReportFoundState extends State<ReportLost>
 
                           // String fileName =
                           //     image!.name + DateTime.now().toString();
-                              String fileName = image!.path.split('/').last + DateTime.now().toString();
-
+                          String fileName = image!.path.split('/').last +
+                              DateTime.now().toString();
 
                           await FirebaseStorage.instance
                               .ref()
@@ -484,7 +484,7 @@ class _ReportFoundState extends State<ReportLost>
                           //     .instance
                           //     .collection("lostItemsInfo")
                           //     .get();
-                              
+
                           // for (var value in response.docs) {
                           //   // print(value['palyerName']);
                           //   lostCards.add(
@@ -503,29 +503,38 @@ class _ReportFoundState extends State<ReportLost>
                           //   print(lostCards);
 
                           //   setState(() {});
-                          }
-                          QuerySnapshot response = await FirebaseFirestore
-                              .instance
-                              .collection("lostItemsInfo")
-                              .get();
-                          for (var value in response.docs) {
-                            // print(value['palyerName']);
+                        }
+                        QuerySnapshot response = await FirebaseFirestore
+                            .instance
+                            .collection("lostItemsInfo")
+                            .get();
+
+                        // log(response as String);
+
+                        for (var value in response.docs) {
+                          // print(value['palyerName']);
+                          try {
                             lostCards.add(
                               LostModel(
                                 id: value.id,
-                                name: value['itemName'],
-                                category: value['category'],
-                                date: value['date'],
-                                location: value['location'],
-                                description: value['description'],
-                                number: value['mobileNumber'],
-                                url: value['lostImg'],
-                                reward: value['reward'],
+                                name: value['itemName'] ?? "Unknown",
+                                category: value['category'] ?? "Uncategorized",
+                                date: value['date'] ?? "Unknown date",
+                                location:
+                                    value['location'] ?? "Unknown location",
+                                description:
+                                    value['description'] ?? "No description",
+                                number: value['mobileNumber'] ?? "No number",
+                                url: value['lostImg'] ?? "",
+                                reward: value['reward'] ?? 0,
                               ),
                             );
-                            print(lostCards);
+                          } catch (e) {
+                            log("Error processing document ${value.id}: $e");
+                          }
+                          // log(lostCards as String);
 
-                            setState(() {});
+                          setState(() {});
                         }
                       },
                       child: Container(

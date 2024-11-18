@@ -4,7 +4,35 @@ import '../../Anuj/LostModel.dart';
 import '../Decription Page/description.dart';
 // import './Lost_Model.dart';
 
-List<LostModel> lostCards = [];
+List<LostModel> lostCards = [
+  // LostModel(
+  //     id: "1",
+  //     name: "Laptop",
+  //     category: "Electronics",
+  //     date: "18 JULY,2024",
+  //     location: "Mumbai",
+  //     description:
+  //         "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
+  //     number: "98765400"),
+  // LostModel(
+  //     id: "2",
+  //     name: "Bag",
+  //     category: "Clothing And Accessories",
+  //     date: "20 JULY,2024",
+  //     location: "Pune",
+  //     description:
+  //         "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
+  //     number: "98765400"),
+  // LostModel(
+  //     id: "3",
+  //     name: "Mobile",
+  //     category: "Transportation",
+  //     date: "15 JULY,2024",
+  //     location: "Pune",
+  //     description:
+  //         "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
+  //     number: "98765400"),
+];
 
 class LostPage extends StatefulWidget {
   const LostPage({super.key});

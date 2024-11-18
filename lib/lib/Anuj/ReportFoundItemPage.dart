@@ -414,9 +414,35 @@ class _ReportFoundState extends State<ReportFound>
                             ),
                           );
 
-                          QuerySnapshot response = await FirebaseFirestore
+                          // QuerySnapshot response = await FirebaseFirestore
+                          //     .instance
+                          //     .collection("foundItemsInfo")
+                          //     // .orderBy('timestamp', descending: true)
+                          //     .get();
+
+                          // for (var value in response.docs) {
+                          //   // print(value['palyerName']);
+                          //   foundCards.add(
+                          //     FoundModel(
+                          //       id: value.id,
+                          //       name: value['itemName'],
+                          //       category: value['category'],
+                          //       date: value['date'],
+                          //       location: value['location'],
+                          //       description: value['description'],
+                          //       url: value['foundImg'],
+                          //       number: value['mobileNumber'],
+                          //     ),
+                          //   );
+                          //   print(foundCards);
+                          // }
+
+                          // setState(() {});
+                        }
+                        QuerySnapshot response = await FirebaseFirestore
                               .instance
                               .collection("foundItemsInfo")
+                              // .orderBy('timestamp', descending: true)
                               .get();
 
                           for (var value in response.docs) {
@@ -437,7 +463,6 @@ class _ReportFoundState extends State<ReportFound>
                           }
 
                           setState(() {});
-                        }
                       },
                       child: Container(
                         height: 50,
