@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 // import 'package:homepage/Kaushal/Found%20Page/found_list.dart';
 
 import '../Found Page/found_list.dart';
-import 'Item_Details.dart';
 import 'Owner_Details.dart';
+import 'found_item_details.dart';
 
 int? globalIndex;
 

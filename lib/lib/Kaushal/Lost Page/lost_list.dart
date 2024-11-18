@@ -4,36 +4,7 @@ import '../../Anuj/LostModel.dart';
 import '../Decription Page/description.dart';
 // import './Lost_Model.dart';
 
-
-List<LostModel> lostCards = [
-    LostModel(
-      id: '1',
-        name: "Laptop",
-        category: "Electronics",
-        date: "18 JULY,2024",
-        location: "Mumbai",
-        description: "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
-        number: "98765400",
-        reward: "500/- Cash"),
-        LostModel(
-          id: '2',
-        name: "Bag",
-        category: "Personal Items",
-        date: "20 JULY,2024",
-        location: "Pune",
-        description: "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
-        number: "98765400"),
-        LostModel(
-          id: '3',
-        name: "Mobile",
-        category: "Others",
-        date: "12 JULY,2024",
-        location: "Pune",
-        description: "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
-        number: "98765400",
-        reward: "A Watch"),
-
-  ];
+List<LostModel> lostCards = [];
 
 class LostPage extends StatefulWidget {
   const LostPage({super.key});
@@ -82,25 +53,6 @@ class _LostPageState extends State<LostPage> {
       ],
     ),
   ];
-
-  
-    // LostModel(
-    //     date: "18 JULY,2024",
-    //     description:
-    //         "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
-    //     title: "Mobile",
-    //     location: "Pune"),
-    // LostModel(
-    //     date: "25 JULY,2024",
-    //     description: "Collection, OOPS, Abstraction, Interface, Serialization",
-    //     title: "Bag",
-    //     location: "Mumbai"),
-    // LostModel(
-    //     date: "18 JULY,2024",
-    //     description:
-    //         "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
-    //     title: "Laptop",
-    //     location: "Nashik"),
 
   List<Widget> img = [
     Image.asset(
@@ -270,7 +222,7 @@ class _LostPageState extends State<LostPage> {
                         onTap: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
-                            return DescriptionPage(index:index);
+                            return DescriptionPage(index: index);
                           }));
                         },
                         child: Container(
@@ -282,11 +234,10 @@ class _LostPageState extends State<LostPage> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          child: img[index % 3],
-                          // Image.asset(
-                          //   "assets/Kaushal/jpeg/ship.jpg",
-                          //   fit: BoxFit.cover,
-                          // ),
+                          child: Image.network(
+                            lostCards[index].url.toString(),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 10),

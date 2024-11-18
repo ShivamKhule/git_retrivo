@@ -58,15 +58,15 @@ class _DescriptionPageState extends State<DescriptionPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Center(
-                child: Text(
-                  "Mobile",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
+              // const Center(
+              //   child: Text(
+              //     "Mobile",
+              //     style: TextStyle(
+              //       fontSize: 20,
+              //       fontWeight: FontWeight.w500,
+              //     ),
+              //   ),
+              // ),
               const SizedBox(height: 10),
               Container(
                 height: 300,
@@ -75,14 +75,14 @@ class _DescriptionPageState extends State<DescriptionPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
                 ),
-                child: Image.asset(
-                  'assets/Kaushal/jpeg/tower.jpg',
-                  fit: BoxFit.contain,
-                ),
                 // child: Image.asset(
-                //   lostItem[index].img,
+                //   'assets/Kaushal/jpeg/tower.jpg',
                 //   fit: BoxFit.contain,
                 // ),
+                child: Image.network(
+                  lostCards[globalIndex ?? 0].url.toString(),
+                  fit: BoxFit.contain,
+                ),
               ),
               const SizedBox(height: 10),
               GestureDetector(

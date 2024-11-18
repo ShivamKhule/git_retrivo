@@ -35,13 +35,9 @@ class ItemDetails extends StatelessWidget {
             DetailRow(title: "Description", value: temp[index].description),
             const Divider(),
             DetailRow(
-              title: "Lost Location", value: temp[index].location),
+              title: "Found Location", value: temp[index].location),
             const Divider(),
-            DetailRow(title: "Lost Date", value: temp[index].date),
-            if (temp[index].reward.trim() != null) ...[
-              const Divider(),
-              DetailRow(title: "Reward", value: temp[index].reward.toString()),
-            ],
+            DetailRow(title: "Found Date", value: temp[index].date),
           ],
         ),
       ),
