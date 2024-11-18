@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../Anuj/LostModel.dart';
@@ -44,9 +47,39 @@ class LostPage extends StatefulWidget {
 class _LostPageState extends State<LostPage> {
   double screenWidth = 0;
 
-  void filterSheet() {
-    // BottomSheet for filter functionality (to be implemented)
-  }
+  // void filterSheet() async{
+      
+
+  //   QuerySnapshot response =
+  //       await FirebaseFirestore.instance.collection("lostItemsInfo").get();
+
+  //   // log(response as String);
+
+  //   for (var value in response.docs) {
+  //     // print(value['palyerName']);
+  //     try {
+  //       lostCards.add(
+  //         LostModel(
+  //           id: value.id,
+  //           name: value['itemName'] ?? "Unknown",
+  //           category: value['category'] ?? "Uncategorized",
+  //           date: value['date'] ?? "Unknown date",
+  //           location: value['location'] ?? "Unknown location",
+  //           description: value['description'] ?? "No description",
+  //           number: value['mobileNumber'] ?? "No number",
+  //           url: value['lostImg'] ?? "",
+  //           reward: value['reward'] ?? 0,
+  //         ),
+  //       );
+  //     } catch (e) {
+  //       log("Error processing document ${value.id}: $e");
+  //     }
+  //     // log(lostCards as String);
+
+  //     // setState(() {});
+  //   }
+  //   // BottomSheet for filter functionality (to be implemented)
+  // }
 
   bool startAnimation = false;
 
@@ -104,6 +137,7 @@ class _LostPageState extends State<LostPage> {
 
   @override
   Widget build(BuildContext context) {
+    // filterSheet();
     screenWidth = MediaQuery.of(context).size.width;
     int crossAxisCount = screenWidth > 600 ? 3 : 2;
     print(lostCards.length);
@@ -151,7 +185,7 @@ class _LostPageState extends State<LostPage> {
                   const SizedBox(width: 10),
                   IconButton(
                     onPressed: () {
-                      filterSheet();
+                      // filterSheet();
                     },
                     icon: const Icon(Icons.sort),
                   ),

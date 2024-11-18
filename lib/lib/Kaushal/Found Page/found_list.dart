@@ -7,33 +7,6 @@ import '../Decription Page/description_ui.dart';
 // import 'Found_Model.dart';
 
 List<FoundModel> foundCards = [
-  FoundModel(
-      id: "1",
-      name: "Laptop",
-      category: "Electronics",
-      date: "18 JULY,2024",
-      location: "Mumbai",
-      description:
-          "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
-      number: "98765400"),
-  FoundModel(
-      id: "2",
-      name: "Bag",
-      category: "Clothing And Accessories",
-      date: "20 JULY,2024",
-      location: "Pune",
-      description:
-          "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
-      number: "98765400"),
-  FoundModel(
-      id: "3",
-      name: "Mobile",
-      category: "Transportation",
-      date: "15 JULY,2024",
-      location: "Pune",
-      description:
-          "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
-      number: "98765400"),
 ];
 
 class FoundPage extends StatefulWidget {

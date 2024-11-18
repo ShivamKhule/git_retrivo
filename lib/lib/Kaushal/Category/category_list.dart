@@ -1,22 +1,16 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:homepage/Anuj/HomePage.dart';
 import '../../Anuj/HomePage.dart';
 import '../Decription Page/description.dart';
 import '../Found Page/found_list.dart';
 import '../Lost Page/lost_list.dart';
 
-// void main() {
-//   runApp(const MyCategoryList());
-// }
-
 String? globalCategory;
 
 class MyCategoryList extends StatelessWidget {
   final String? category;
-  MyCategoryList({super.key, required this.category}){
-  // log(globalCategory);
+  MyCategoryList({super.key, required this.category}) {
+    // log(globalCategory);
     globalCategory = category;
   }
 
@@ -46,7 +40,8 @@ class _CategoryListState extends State<CategoryList>
   late Animation<Offset> _slideAnimation;
   // ignore: non_constant_identifier_names
   String title_category = "Categories";
-  String selectedCategory = globalCategory.toString(); // Default category filter
+  String selectedCategory =
+      globalCategory.toString(); // Default category filter
 
   // Initialize the animation and selected category based on the initial state
   @override
@@ -105,15 +100,15 @@ class _CategoryListState extends State<CategoryList>
   Widget build(BuildContext context) {
     double sectionWidth = MediaQuery.of(context).size.width * 0.9;
 
-
     return Scaffold(
       appBar: AppBar(
         title: Text(title_category),
         leading: GestureDetector(
           onTap: () {
-           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
-            return const HomepageClass();
-           }));
+            Navigator.of(context)
+                .pushReplacement(MaterialPageRoute(builder: (context) {
+              return const HomepageClass();
+            }));
           },
           child: const Icon(Icons.arrow_back),
         ),
@@ -148,7 +143,17 @@ class _CategoryListState extends State<CategoryList>
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: DropdownButton<String>(
               value: selectedCategory,
-              items: ["All", "Electronics", "Documents","Personal Items", "Clothing And Accessories", "Transportation", "Pets", "Household Items", "Others"]
+              items: [
+                "All",
+                "Electronics",
+                "Documents",
+                "Personal Items",
+                "Clothing And Accessories",
+                "Transportation",
+                "Pets",
+                "Household Items",
+                "Others"
+              ]
                   .map((category) => DropdownMenuItem(
                         value: category,
                         child: Text(category),
@@ -343,64 +348,3 @@ class _CategoryListState extends State<CategoryList>
     );
   }
 }
-
-// Sample lists of found and lost items
-// List<FoundModel> foundCards = [
-//   FoundModel(
-//     name: "Laptop",
-//     category: "Electronics",
-//     date: "18 JULY,2024",
-//     location: "Mumbai",
-//     description:
-//         "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
-//     number: "98765400",
-//   ),
-//   FoundModel(
-//     name: "Bag",
-//     category: "Others",
-//     date: "20 JULY,2024",
-//     location: "Pune",
-//     description:
-//         "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
-//     number: "98765400",
-//   ),
-//   FoundModel(
-//     name: "Mobile",
-//     category: "Documents",
-//     date: "15 JULY,2024",
-//     location: "Pune",
-//     description:
-//         "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
-//     number: "98765400",
-//   ),
-// ];
-
-// List<LostModel> lostCards = [
-//   LostModel(
-//     name: "Laptop",
-//     category: "Personal Items",
-//     date: "18 JULY,2024",
-//     location: "Mumbai",
-//     description:
-//         "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
-//     number: "98765400",
-//   ),
-//   LostModel(
-//     name: "Bag",
-//     category: "Clothing And Accessories",
-//     date: "20 JULY,2024",
-//     location: "Pune",
-//     description:
-//         "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
-//     number: "98765400",
-//   ),
-//   LostModel(
-//     name: "Mobile",
-//     category: "Others",
-//     date: "12 JULY,2024",
-//     location: "Pune",
-//     description:
-//         "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
-//     number: "98765400",
-//   ),
-// ];
