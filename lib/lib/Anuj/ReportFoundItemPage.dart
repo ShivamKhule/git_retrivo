@@ -1,8 +1,10 @@
 // ignore_for_file: file_names
 
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
@@ -353,16 +355,32 @@ class _ReportFoundState extends State<ReportFound>
                       onTap: () async {
                         print("1");
                         print(categoryController);
-                        if (
-                          nameController.text.trim().isNotEmpty &&
-                                dateController.text.trim().isNotEmpty &&
-                                locationController.text.trim().isNotEmpty &&
-                                descriptionController.text.trim().isNotEmpty &&
-                                numberController.text.trim().isNotEmpty
-                            // selectedCategory != null
-                            ) {
+                        if (nameController.text.trim().isNotEmpty &&
+                            dateController.text.trim().isNotEmpty &&
+                            locationController.text.trim().isNotEmpty &&
+                            descriptionController.text.trim().isNotEmpty &&
+                            numberController.text.trim().isNotEmpty &&
+                            image != null) {
                           print("1");
                           print(categoryController);
+
+                          String fileName = image!.path.split('/').last +
+                              DateTime.now().toString();
+
+                          await FirebaseStorage.instance
+                              .ref()
+                              .child(fileName)
+                              .putFile(image!);
+
+                          log("Download url from Firebase");
+
+                          String url = await FirebaseStorage.instance
+                              .ref()
+                              .child(fileName)
+                              .getDownloadURL();
+
+                          log(url);
+
                           Map<String, dynamic> data = {
                             "itemName": nameController.text.trim(),
                             "category": selectedCategory,
@@ -370,39 +388,17 @@ class _ReportFoundState extends State<ReportFound>
                             "location": locationController.text.trim(),
                             "description": descriptionController.text.trim(),
                             "mobileNumber": numberController.text.trim(),
+                            "foundImg": url,
                           };
-                          FirebaseFirestore.instance
-                              .collection("FoundItemsInfo")
+
+                          log("DATA ADDED :- $data");
+
+                          DocumentReference ref = await FirebaseFirestore
+                              .instance
+                              .collection("foundItemsInfo")
                               .add(data);
 
-                          // foundCards.add(FoundModel(
-                          //     name: nameController.text.trim(),
-                          //     category: selectedCategory,
-                          //     date: dateController.text.trim(),
-                          //     location: locationController.text.trim(),
-                          //     description: descriptionController.text.trim(),
-                          //     number : numberController.text.trim(),
-                          //     ));
-
-                              QuerySnapshot response = await FirebaseFirestore
-                              .instance
-                              .collection("FoundItemsInfo")
-                              .get();
-                          for (var value in response.docs) {
-                            // print(value['palyerName']);
-                            foundCards.add(
-                              FoundModel(
-                                // id: value.id,
-                                name: value['itemName'],
-                                category: value['category'],
-                                date: value['date'],
-                                location: value['location'],
-                                description: value['description'],
-                                number: value['mobileNumber'],
-                              ),
-                            );
-                            print(foundCards);
-                          }
+                          log("ADDED DATA:- Document ID: ${ref.id}, Path: ${ref.path}");
 
                           nameController.clear();
                           dateController.clear();
@@ -410,7 +406,35 @@ class _ReportFoundState extends State<ReportFound>
                           descriptionController.clear();
                           numberController.clear();
                           selectedCategory = null;
+                          image = null;
 
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Data Added"),
+                            ),
+                          );
+
+                          QuerySnapshot response = await FirebaseFirestore
+                              .instance
+                              .collection("foundItemsInfo")
+                              .get();
+
+                          for (var value in response.docs) {
+                            // print(value['palyerName']);
+                            foundCards.add(
+                              FoundModel(
+                                id: value.id,
+                                name: value['itemName'],
+                                category: value['category'],
+                                date: value['date'],
+                                location: value['location'],
+                                description: value['description'],
+                                url: value['foundImg'],
+                                number: value['mobileNumber'],
+                              ),
+                            );
+                            print(foundCards);
+                          }
 
                           setState(() {});
                         }

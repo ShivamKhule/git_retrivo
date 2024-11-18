@@ -480,6 +480,30 @@ class _ReportFoundState extends State<ReportLost>
                             ),
                           );
 
+                          // QuerySnapshot response = await FirebaseFirestore
+                          //     .instance
+                          //     .collection("lostItemsInfo")
+                          //     .get();
+                              
+                          // for (var value in response.docs) {
+                          //   // print(value['palyerName']);
+                          //   lostCards.add(
+                          //     LostModel(
+                          //       id: value.id,
+                          //       name: value['itemName'],
+                          //       category: value['category'],
+                          //       date: value['date'],
+                          //       location: value['location'],
+                          //       description: value['description'],
+                          //       number: value['mobileNumber'],
+                          //       url: value['lostImg'],
+                          //       reward: value['reward'],
+                          //     ),
+                          //   );
+                          //   print(lostCards);
+
+                          //   setState(() {});
+                          }
                           QuerySnapshot response = await FirebaseFirestore
                               .instance
                               .collection("lostItemsInfo")
@@ -502,7 +526,6 @@ class _ReportFoundState extends State<ReportLost>
                             print(lostCards);
 
                             setState(() {});
-                          }
                         }
                       },
                       child: Container(
