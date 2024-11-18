@@ -51,33 +51,6 @@ class _FoundPageState extends State<FoundPage> {
 
   double screenWidth = 0;
 
-  List<Color> cardColor = [
-    const Color.fromRGBO(250, 232, 232, 1),
-    const Color.fromRGBO(232, 237, 250, 1),
-    const Color.fromRGBO(250, 249, 232, 1),
-    const Color.fromRGBO(250, 232, 250, 1),
-  ];
-
-  // List<TodoModel> foundCards = [
-  //   TodoModel(
-  //       date: "18 JULY,2024",
-  //       description:
-  //           "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
-  //       title: "Flutter",
-  //       location: "Pune"),
-  //   TodoModel(
-  //       date: "25 JULY,2024",
-  //       description: "Collection, OOPS, Abstraction, Interface, Serialization",
-  //       title: "Java",
-  //       location: "Mumbai"),
-  //   TodoModel(
-  //       date: "18 JULY,2024",
-  //       description:
-  //           "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
-  //       title: "Flutter",
-  //       location: "Pune"),
-  // ];
-
   List<Widget> img = [
     Image.asset(
       "assets/Kaushal/jpeg/ship.jpg",
@@ -203,11 +176,10 @@ class _FoundPageState extends State<FoundPage> {
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(15),
                                   ),
-                                  child: img[index % 3],
-                                  // Image.asset(
-                                  //   "assets/Kaushal/jpeg/ship.jpg",
-                                  //   fit: BoxFit.cover,
-                                  // ),
+                                  child: Image.network(
+                                    foundCards[index].url.toString(),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                                 const SizedBox(height: 10),
                                 Text(
@@ -279,28 +251,6 @@ class _FoundPageState extends State<FoundPage> {
             ),
           ],
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {
-        //     // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        //     //   return const ItemDetailFormPage();
-        //     // }));
-        //   },
-        //   shape: const CircleBorder(),
-        //   // backgroundColor: const Color(0xffbb8493),
-        //   child: Container(
-        //     height: double.infinity,
-        //     width: double.infinity,
-        //     decoration: const BoxDecoration(
-        //       gradient: LinearGradient(colors: [Colors.blue, Colors.purple]),
-        //       shape: BoxShape.circle,
-        //     ),
-        //     child: const Icon(
-        //       Icons.add,
-        //       color: Colors.white,
-        //       size: 40,
-        //     ),
-        //   ),
-        // ),
       ),
     );
   }

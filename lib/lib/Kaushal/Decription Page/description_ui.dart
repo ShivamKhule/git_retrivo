@@ -65,8 +65,8 @@ class _FoundDescriptionState extends State<FoundDescription> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
                 ),
-                child: Image.asset(
-                  'assets/Kaushal/jpeg/tower.jpg',
+                child: Image.network(
+                  foundCards[globalIndex ?? 0].url.toString(),
                   fit: BoxFit.contain,
                 ),
               ),

@@ -16,11 +16,6 @@ class LostPage extends StatefulWidget {
 class _LostPageState extends State<LostPage> {
   double screenWidth = 0;
 
-  // TextEditingController searchController = TextEditingController();
-  // TextEditingController titleController = TextEditingController();
-  // TextEditingController descriptionController = TextEditingController();
-  // TextEditingController dateController = TextEditingController();
-
   void filterSheet() {
     // BottomSheet for filter functionality (to be implemented)
   }
@@ -153,28 +148,6 @@ class _LostPageState extends State<LostPage> {
             ),
           ],
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {
-        //     // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        //     //   return const ItemDetailFormPage();
-        //     // }));
-        //   },
-        //   shape: const CircleBorder(),
-        //   // backgroundColor: const Color(0xffbb8493),
-        //   child: Container(
-        //     height: double.infinity,
-        //     width: double.infinity,
-        //     decoration: const BoxDecoration(
-        //       gradient: LinearGradient(colors: [Colors.blue, Colors.purple]),
-        //       shape: BoxShape.circle,
-        //     ),
-        //     child: const Icon(
-        //       Icons.add,
-        //       color: Colors.white,
-        //       size: 40,
-        //     ),
-        //   ),
-        // ),
       ),
     );
   }
