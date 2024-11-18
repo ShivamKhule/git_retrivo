@@ -4,7 +4,7 @@ import 'dart:io';
 import 'dart:developer';
 //
 // import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
@@ -59,6 +59,22 @@ class _ReportFoundState extends State<ReportLost>
 
   // }
 
+  // XFile? image;
+  // final ImagePicker picker = ImagePicker();
+
+  // // XFile? selectedFile;
+
+  // Future<void> pickImage(ImageSource source) async {
+  //   final XFile? pickedFile = await picker.pickImage(source: source);
+
+  //   if (pickedFile != null) {
+  //     setState(() {
+  //       image = File(pickedFile.path);
+  //       // selectedFile =
+  //     });
+  //   }
+  // }
+
   File? image;
   final ImagePicker picker = ImagePicker();
 
@@ -67,7 +83,7 @@ class _ReportFoundState extends State<ReportLost>
 
     if (pickedFile != null) {
       setState(() {
-        image = File(pickedFile.path);
+        image = File(pickedFile.path); // Store as XFile
       });
     }
   }
@@ -384,46 +400,85 @@ class _ReportFoundState extends State<ReportLost>
                       onTap: () async {
                         // submit();
 
-                        print("1");
+                        // print("1");
                         print(categoryController);
                         if (nameController.text.trim().isNotEmpty &&
-                                dateController.text.trim().isNotEmpty &&
-                                locationController.text.trim().isNotEmpty &&
-                                descriptionController.text.trim().isNotEmpty &&
-                                numberController.text.trim().isNotEmpty
-                            // selectedCategory != null
-                            ) {
-                          print("1");
+                            dateController.text.trim().isNotEmpty &&
+                            locationController.text.trim().isNotEmpty &&
+                            descriptionController.text.trim().isNotEmpty &&
+                            numberController.text.trim().isNotEmpty &&
+                            image != null) {
+                          // categoryController != null) {
+                          // print("1");
                           print(categoryController);
 
+                          // String fileName =
+                          //     image!.name + DateTime.now().toString();
+                              String fileName = image!.path.split('/').last + DateTime.now().toString();
+
+
+                          await FirebaseStorage.instance
+                              .ref()
+                              .child(fileName)
+                              .putFile(image!); // Convert XFile to File here
+
+                          // String fileName =
+                          //     image!.name + DateTime.now().toString();
+
+                          // log("Add Image to Firebase");
+
+                          // await FirebaseStorage.instance
+                          //     .ref()
+                          //     .child(fileName)
+                          //     .putFile(
+                          //       File(image!.path),
+                          //     );
+
+                          log("Download url from Firebase");
+
+                          String url = await FirebaseStorage.instance
+                              .ref()
+                              .child(fileName)
+                              .getDownloadURL();
+
+                          log(url);
+
                           Map<String, dynamic> data = {
-                            "category": selectedCategory.toString(),
+                            "category": categoryController.toString(),
                             "date": dateController.text.trim(),
                             "description": descriptionController.text.trim(),
                             "itemName": nameController.text.trim(),
                             "location": locationController.text.trim(),
                             "mobileNumber": numberController.text.trim(),
                             "reward": rewardController.text.trim(),
+                            "lostImg": url,
                           };
 
                           log("DATA ADDED :- $data");
 
-                          // DocumentReference ref = await FirebaseFirestore
-                          //     .instance
-                          //     .collection("lostItemsInfo")
-                          //     .add(data);
+                          DocumentReference ref = await FirebaseFirestore
+                              .instance
+                              .collection("lostItemsInfo")
+                              .add(data);
 
-                          // log("ADDED DATA:- Document ID: ${ref.id}, Path: ${ref.path}");
+                          log("ADDED DATA:- Document ID: ${ref.id}, Path: ${ref.path}");
 
-                          // // log("DATA ADDED :-");
+                          // log("DATA ADDED :-");
 
-                          // nameController.clear();
-                          // dateController.clear();
-                          // locationController.clear();
-                          // descriptionController.clear();
-                          // numberController.clear();
-                          // rewardController.clear();
-                          // selectedCategory = null;
+                          nameController.clear();
+                          dateController.clear();
+                          locationController.clear();
+                          descriptionController.clear();
+                          numberController.clear();
+                          rewardController.clear();
+                          selectedCategory = null;
+                          image = null;
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Data Added"),
+                            ),
+                          );
 
                           QuerySnapshot response = await FirebaseFirestore
                               .instance
@@ -433,31 +488,22 @@ class _ReportFoundState extends State<ReportLost>
                             // print(value['palyerName']);
                             lostCards.add(
                               LostModel(
-                                // id: value.id,
+                                id: value.id,
                                 name: value['itemName'],
                                 category: value['category'],
                                 date: value['date'],
                                 location: value['location'],
                                 description: value['description'],
                                 number: value['mobileNumber'],
+                                url: value['lostImg'],
                                 reward: value['reward'],
                               ),
                             );
-                            // playerlist.add(
-                            //   PlayerModel(
-                            //     id: value.id,
-                            //     jerNo: value['jerNo'],
-                            //     playerName: value['palyerName'],
-                            //   ),
-                            // );
                             print(lostCards);
 
-                          setState(() {});
-                        }
-
-                          
+                            setState(() {});
                           }
-                          
+                        }
                       },
                       child: Container(
                         height: 50,

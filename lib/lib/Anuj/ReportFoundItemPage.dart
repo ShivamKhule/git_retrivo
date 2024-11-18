@@ -2,13 +2,12 @@
 
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
-// import 'package:homepage/Anuj/FoundModel.dart';
-// import 'package:homepage/Kaushal/Found%20Page/found_list.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../Kaushal/Found Page/found_list.dart';
 import 'FoundModel.dart';
 
@@ -351,7 +350,7 @@ class _ReportFoundState extends State<ReportFound>
                   FadeInUp(
                     delay: const Duration(milliseconds: 1200),
                     child: GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         print("1");
                         print(categoryController);
                         if (
@@ -372,18 +371,38 @@ class _ReportFoundState extends State<ReportFound>
                             "description": descriptionController.text.trim(),
                             "mobileNumber": numberController.text.trim(),
                           };
-                          // FirebaseFirestore.instance
-                          //     .collection("FoundItemsInfo")
-                          //     .add(data);
+                          FirebaseFirestore.instance
+                              .collection("FoundItemsInfo")
+                              .add(data);
 
-                          foundCards.add(FoundModel(
-                              name: nameController.text.trim(),
-                              category: selectedCategory,
-                              date: dateController.text.trim(),
-                              location: locationController.text.trim(),
-                              description: descriptionController.text.trim(),
-                              number : numberController.text.trim(),
-                              ));
+                          // foundCards.add(FoundModel(
+                          //     name: nameController.text.trim(),
+                          //     category: selectedCategory,
+                          //     date: dateController.text.trim(),
+                          //     location: locationController.text.trim(),
+                          //     description: descriptionController.text.trim(),
+                          //     number : numberController.text.trim(),
+                          //     ));
+
+                              QuerySnapshot response = await FirebaseFirestore
+                              .instance
+                              .collection("FoundItemsInfo")
+                              .get();
+                          for (var value in response.docs) {
+                            // print(value['palyerName']);
+                            foundCards.add(
+                              FoundModel(
+                                // id: value.id,
+                                name: value['itemName'],
+                                category: value['category'],
+                                date: value['date'],
+                                location: value['location'],
+                                description: value['description'],
+                                number: value['mobileNumber'],
+                              ),
+                            );
+                            print(foundCards);
+                          }
 
                           nameController.clear();
                           dateController.clear();
@@ -391,6 +410,7 @@ class _ReportFoundState extends State<ReportFound>
                           descriptionController.clear();
                           numberController.clear();
                           selectedCategory = null;
+
 
                           setState(() {});
                         }

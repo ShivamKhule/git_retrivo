@@ -7,6 +7,7 @@ import '../Decription Page/description.dart';
 
 List<LostModel> lostCards = [
     LostModel(
+      id: '1',
         name: "Laptop",
         category: "Electronics",
         date: "18 JULY,2024",
@@ -15,6 +16,7 @@ List<LostModel> lostCards = [
         number: "98765400",
         reward: "500/- Cash"),
         LostModel(
+          id: '2',
         name: "Bag",
         category: "Personal Items",
         date: "20 JULY,2024",
@@ -22,6 +24,7 @@ List<LostModel> lostCards = [
         description: "Widgets, AppBar, NavBar, GestureDtector, List, TextEditingController",
         number: "98765400"),
         LostModel(
+          id: '3',
         name: "Mobile",
         category: "Others",
         date: "12 JULY,2024",
