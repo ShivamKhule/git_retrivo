@@ -3,10 +3,8 @@ import 'dart:developer';
 import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../Anuj/FoundModel.dart';
 import '../../Anuj/LostModel.dart';
 import '../Decription Page/description.dart';
-import '../Found Page/found_list.dart';
 // import './Lost_Model.dart';
 
 List<LostModel> lostCards = [

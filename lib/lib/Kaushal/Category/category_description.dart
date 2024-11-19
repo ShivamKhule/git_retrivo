@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:git_retrivo/lib/Kaushal/Category/category_list.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:git_retrivo/lib/Kaushal/Found%20Page/found_list.dart';
+import 'package:git_retrivo/lib/Kaushal/Lost%20Page/lost_list.dart';
 
 import '../Decription Page/Owner_Details.dart';
 import '../Decription Page/found_item_details.dart';
-import '../Lost Page/lost_list.dart';
-import '../Found Page/found_list.dart';
 // import 'Item_Details.dart';
 // import 'Owner_Details.dart';
 

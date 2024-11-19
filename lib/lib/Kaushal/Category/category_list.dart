@@ -87,12 +87,17 @@ class _CategoryListState extends State<CategoryList>
     });
   }
 
+  // Initialize a temporary list for filtered items
+  List<dynamic> filteredItems = [];
+
   // Filter the list based on the selected category
   List _filterByCategory(List items, String category) {
     if (category == "All") {
-      return items;
+      filteredItems = items;
+      return filteredItems;
     } else {
-      return items.where((item) => item.category == category).toList();
+      filteredItems = items.where((item) => item.category == category).toList();
+      return filteredItems;
     }
   }
 
@@ -282,8 +287,8 @@ class _CategoryListState extends State<CategoryList>
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: Image.asset(
-                      "assets/Kaushal/jpeg/ship.jpg",
+                    child: Image.network(
+                      item.url.toString(),
                       fit: BoxFit.cover,
                     ),
                   ),

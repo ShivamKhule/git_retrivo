@@ -195,7 +195,7 @@ class _ReportFoundState extends State<ReportLost>
 
         // Combine street number and street name if available
         if (place.subThoroughfare != null) {
-          fullStreetAddress += place.subThoroughfare! + " "; // Street number (if exists)
+          fullStreetAddress += "${place.subThoroughfare!} "; // Street number (if exists)
         }
         if (place.thoroughfare != null) {
           fullStreetAddress += place.thoroughfare!; // Street name
