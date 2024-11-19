@@ -26,7 +26,9 @@ class FoundModel {
   final String location;
   final String description;
   final String number;
+  String? mapLocation;
   String? url;
+  String? reward;
 
   FoundModel({
     required this.id,
@@ -36,6 +38,8 @@ class FoundModel {
     required this.location,
     required this.description,
     required this.number,
+    this.mapLocation,
     this.url,
+    String? reward,
   });
 }

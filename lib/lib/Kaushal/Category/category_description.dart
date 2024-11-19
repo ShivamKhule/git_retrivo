@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:git_retrivo/lib/Anuj/LostModel.dart';
 import 'package:git_retrivo/lib/Kaushal/Category/category_list.dart';
 import 'package:git_retrivo/lib/Kaushal/Found%20Page/found_list.dart';
 import 'package:git_retrivo/lib/Kaushal/Lost%20Page/lost_list.dart';
 
 import '../Decription Page/Owner_Details.dart';
-import '../Decription Page/found_item_details.dart';
+import 'category_Item_Details.dart';
 // import 'Item_Details.dart';
 // import 'Owner_Details.dart';
 
 int? globalIndex;
+dynamic item;
+List list = [];
 
 class DescriptionPage extends StatefulWidget {
-  DescriptionPage({super.key, int? index}) {
+  DescriptionPage({super.key, int? index,dynamic citem,required List filterItems}) {
     globalIndex = index; // Assign the index of the clicked item
+    item = citem;
+    list = filterItems;
   }
 
   @override
@@ -58,10 +63,10 @@ class _DescriptionPageState extends State<DescriptionPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
                 ),
-                // child: Image.network(
-                //   currentItem.url.toString(),
-                //   fit: BoxFit.contain,
-                // ),
+                child: Image.network(
+                  item.url.toString(),
+                  fit: BoxFit.contain,
+                ),
               ),
               const SizedBox(height: 10),
               // View on Map button
@@ -120,12 +125,12 @@ class _DescriptionPageState extends State<DescriptionPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const TabBar(
+                    TabBar(
                       labelColor: Colors.black,
                       unselectedLabelColor: Colors.grey,
                       indicatorColor: Colors.blue,
                       tabs: [
-                        Tab(
+                        const Tab(
                           child: Text(
                             "Item Details",
                             style: TextStyle(
@@ -136,8 +141,8 @@ class _DescriptionPageState extends State<DescriptionPage> {
                         ),
                         Tab(
                           child: Text(
-                            "Owner",
-                            style: TextStyle(
+                            (list.runtimeType == List<LostModel>) ? "Owner" : "Finder",
+                            style: const TextStyle(
                               fontSize: 17,
                             ),
                           ),
@@ -149,7 +154,7 @@ class _DescriptionPageState extends State<DescriptionPage> {
                       child: TabBarView(
                         children: [
                           // Pass details to the respective tabs
-                          ItemDetails(temp: isLost ? lostCards : foundCards, index: globalIndex ?? 0),
+                          ItemDetails(temp: list, index: globalIndex ?? 0),
                           const OwnerDetails(),
                         ],
                       ),

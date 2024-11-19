@@ -7,8 +7,7 @@ import '../../Anuj/FoundModel.dart';
 import '../Decription Page/description_ui.dart';
 // import 'Found_Model.dart';
 
-List<FoundModel> foundCards = [
-];
+List<FoundModel> foundCards = [];
 
 class FoundPage extends StatefulWidget {
   const FoundPage({super.key});
@@ -23,7 +22,7 @@ class _FoundPageState extends State<FoundPage> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController dateController = TextEditingController();
 
-   void load() async {
+  void load() async {
     QuerySnapshot response = await FirebaseFirestore.instance
         .collection("foundItemsInfo")
         // .orderBy('timestamp', descending: true)
@@ -47,30 +46,18 @@ class _FoundPageState extends State<FoundPage> {
       );
       print(foundCards);
     }
+
+    setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
     load();
+    print("1");
   }
 
   double screenWidth = 0;
-
-  List<Widget> img = [
-    Image.asset(
-      "assets/Kaushal/jpeg/ship.jpg",
-      fit: BoxFit.cover,
-    ),
-    Image.asset(
-      "assets/Kaushal/jpeg/mobile.jpg",
-      fit: BoxFit.cover,
-    ),
-    Image.asset(
-      "assets/Kaushal/jpeg/tower.jpg",
-      fit: BoxFit.cover,
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {

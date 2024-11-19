@@ -642,7 +642,7 @@ class _ReportFoundState extends State<ReportLost>
                                       value['description'] ?? "No description",
                                   number: value['mobileNumber'] ?? "No number",
                                   url: value['lostImg'] ?? "",
-                                  reward: value['reward'] ?? "No Reward",
+                                  reward: value['reward'].isEmpty ? "No Reward" : value['reward'],
                                 ),
                               );
                             } catch (e) {

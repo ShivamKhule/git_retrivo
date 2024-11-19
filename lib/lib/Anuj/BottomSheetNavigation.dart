@@ -69,7 +69,8 @@ class BottomNavigationState extends State<BottomNavigation> {
             mapLocation: value['mapLocation'] ?? "Location not given",
             number: value['mobileNumber'] ?? "No number",
             url: value['lostImg'] ?? "",
-            reward: value['reward'] ?? 0,
+            // reward: value['reward'] ?? 0,
+            reward: value['reward'].isEmpty ? "No Reward" : value['reward'],
           ),
         );
       } catch (e) {

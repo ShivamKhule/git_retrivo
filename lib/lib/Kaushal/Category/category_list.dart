@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../Anuj/HomePage.dart';
-import '../Decription Page/description.dart';
 import '../Found Page/found_list.dart';
 import '../Lost Page/lost_list.dart';
+import 'category_description.dart';
 
 String? globalCategory;
 
@@ -220,7 +220,7 @@ class _CategoryListState extends State<CategoryList>
       ),
     );
   }
-
+  int? globalIndex;
   // Build grid view for filtered items based on the selected category
   Widget _buildGrid(List items, String type, Color labelColor) {
     int crossAxisCount = MediaQuery.of(context).size.width > 600 ? 3 : 2;
@@ -239,20 +239,20 @@ class _CategoryListState extends State<CategoryList>
       // log[itemCount],
       itemBuilder: (BuildContext context, int index) {
         print(index);
-        return _buildItem(items[index], type, labelColor);
+        return _buildItem(items[index],index, type, labelColor);
       },
     );
   }
 
   // Build item card for each lost or found item
-  Widget _buildItem(dynamic item, String type, Color labelColor) {
+  Widget _buildItem(dynamic item,int index, String type, Color labelColor) {
     return GestureDetector(
       onTap: () {
         // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
         //   return DescriptionPage();
         // }));
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => DescriptionPage(index: globalIndex),
+          builder: (context) => DescriptionPage(index: index,citem: item,filterItems: filteredItems),
         ));
       },
       child: Stack(
