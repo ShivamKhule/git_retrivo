@@ -157,17 +157,17 @@ class AppbarClassState extends State<HomepageClass> {
   //For carasouel
 
   Lostpage lostpage = Lostpage(imagesUrls: [
-    foundCards[0].url.toString(),
-    foundCards[1].url.toString(),
-    foundCards[2].url.toString(),
-     foundCards[3].url.toString(),
+    foundCards[foundCards.length - 1].url.toString(),
+    foundCards[foundCards.length - 2].url.toString(),
+    foundCards[foundCards.length - 3].url.toString(),
+    foundCards[foundCards.length - 4].url.toString(),
   ]);
 
   Lostpage foundpage = Lostpage(imagesUrls: [
-    lostCards[0].url.toString(),
-    lostCards[1].url.toString(),
-    lostCards[2].url.toString(),
-    lostCards[3].url.toString(),
+    lostCards[lostCards.length - 1].url.toString(),
+    lostCards[lostCards.length - 2].url.toString(),
+    lostCards[lostCards.length - 3].url.toString(),
+    lostCards[lostCards.length - 4].url.toString(),
   ]);
 
   List<String> fieldCategory1 = [
@@ -747,31 +747,34 @@ class AppbarClassState extends State<HomepageClass> {
   Widget carousel() {
     final List<Map<String, String>> carouselData = [
       {
-        'image': 'assets/anuj/homepage/caterogyimg/others.jpg',
-        'title': 'Lost Wallet',
-        'description': 'Found in the park near the lake, last seen 2 days ago.',
+        'image': lostCards[0].url,
+        'title': "Lost ${lostCards[0].name}",
+        'description': "Found ${lostCards[0].description}",
       },
       {
-        'image': 'assets/anuj/homepage/caterogyimg/pets.jpg',
-        'title': 'Lost Phone',
-        'description': 'Lost at the mall, looking for the owner. Contact us.',
+        'image': lostCards[1].url,
+        'title': "Lost ${lostCards[1].name}",
+        'description': "Found ${lostCards[1].description}",
       },
       {
-        'image': 'assets/anuj/homepage/caterogyimg/electronics.jpg',
-        'title': 'Lost Bag',
-        'description': 'Found in the bus station. Could be yours!',
+        'image': lostCards[2].url,
+        'title': "Lost ${lostCards[2].name}",
+        'description': "Found ${lostCards[2].description}",
       },
       {
-        'image': 'assets/anuj/homepage/caterogyimg/documents.png',
-        'title': 'Found Keys',
-        'description':
-            'Found in the parking lot. Let us know if they belong to you.',
+        'image': foundCards[0].url.toString(),
+        'title': "Found ${foundCards[0].name}",
+        'description': "Found ${foundCards[0].description}",
       },
       {
-        'image': 'assets/anuj/homepage/caterogyimg/c_a.jpg',
-        'title': 'Found Laptop',
-        'description':
-            'Found at the library. Hoping to return it to its rightful owner.',
+        'image': foundCards[1].url.toString(),
+        'title': "Found ${foundCards[1].name}",
+        'description': "Found ${foundCards[1].description}",
+      },
+      {
+        'image': foundCards[2].url.toString(),
+        'title': "Found ${foundCards[2].name}",
+        'description': "Found ${foundCards[2].description}",
       },
     ];
 
@@ -818,8 +821,9 @@ class AppbarClassState extends State<HomepageClass> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(24),
                             image: DecorationImage(
-                              image: AssetImage(carouselData[index]['image']!),
-                              fit: BoxFit.cover,
+                              image:
+                                  NetworkImage(carouselData[index]['image']!),
+                              fit: BoxFit.contain,
                             ),
                           ),
                           child: Stack(
@@ -1076,10 +1080,10 @@ class AppbarClassState extends State<HomepageClass> {
 Widget foundCarousel(List<String> images) {
   // List of found names corresponding to the images
   List<String> foundname = [
-    lostCards[0].name,
-    lostCards[1].name,
-    lostCards[2].name,
-    lostCards[3].name,
+    lostCards[lostCards.length - 1].name,
+    lostCards[lostCards.length - 2].name,
+    lostCards[lostCards.length - 3].name,
+    lostCards[lostCards.length - 4].name,
   ];
 
   return Column(
@@ -1223,7 +1227,7 @@ Widget foundCarousel(List<String> images) {
                   borderRadius: BorderRadius.circular(15),
                   child: Image.network(
                     images[index],
-                    fit: BoxFit.contain,
+                    fit: BoxFit.fill,
                     width: double.infinity,
                     height: double.infinity,
                   ),
@@ -1269,13 +1273,14 @@ Widget foundCarousel(List<String> images) {
     ],
   );
 }
+
 Widget lostCarousel(List<String> images) {
   // List of lost item names corresponding to the images
-  List<String> lostname = [
-    foundCards[0].name,
-    foundCards[1].name,
-    foundCards[2].name,
-    foundCards[3].name,
+  List<String> foundname = [
+    foundCards[foundCards.length - 1].name,
+    foundCards[foundCards.length - 2].name,
+    foundCards[foundCards.length - 3].name,
+    foundCards[foundCards.length - 4].name,
   ];
 
   return Column(
@@ -1440,7 +1445,8 @@ Widget lostCarousel(List<String> images) {
                   bottom: 10,
                   left: 10,
                   child: Text(
-                    lostname[index], // Display the corresponding name for the image
+                    foundname[
+                        index], // Display the corresponding name for the image
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
