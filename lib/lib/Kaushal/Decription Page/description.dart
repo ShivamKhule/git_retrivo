@@ -10,7 +10,7 @@ import 'Owner_Details.dart';
 //   int? index;
 //   DescriptionPage({super.key,this.index});
 //   // DescriptionPage.simple(){}
-  
+
 //   @override
 //   State<DescriptionPage> createState() => _DescriptionPageState();
 // }
@@ -27,28 +27,27 @@ class DescriptionPage extends StatefulWidget {
 }
 
 class _DescriptionPageState extends State<DescriptionPage> {
-
   // DescriptionPage.simple obj = DescriptionPage.simple();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: 
+      // backgroundColor:
       appBar: AppBar(
         title: const Text("Description"),
         // backgroundColor: const Color(0xffbb8493),
         flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.blue, // Start color
-                  Colors.purple, // End color
-                ],
-              ),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.blue, // Start color
+                Colors.purple, // End color
+              ],
             ),
-          ), 
+          ),
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -75,10 +74,6 @@ class _DescriptionPageState extends State<DescriptionPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
                 ),
-                // child: Image.asset(
-                //   'assets/Kaushal/jpeg/tower.jpg',
-                //   fit: BoxFit.contain,
-                // ),
                 child: Image.network(
                   lostCards[globalIndex ?? 0].url.toString(),
                   fit: BoxFit.contain,
@@ -165,14 +160,30 @@ class _DescriptionPageState extends State<DescriptionPage> {
                       ],
                     ),
                     SizedBox(
-                      height: 400, // Adjust height as needed
+                      height: 500, // Adjust height as needed
                       child: TabBarView(
                         children: [
-                          ItemDetails(temp: lostCards,index: globalIndex ?? 0),
+                          ItemDetails(temp: lostCards, index: globalIndex ?? 0),
                           const OwnerDetails(),
                         ],
                       ),
                     ),
+                    const SizedBox(height: 10),
+                    Center(
+                      child: Container(
+                        height: 300,
+                        // width: MediaQuery.of(context).size.width,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Image.network(
+                          lostCards[globalIndex ?? 0].url.toString(),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),

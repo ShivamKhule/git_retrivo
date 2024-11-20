@@ -67,6 +67,7 @@ class _LostPageState extends State<LostPage> {
             mapLocation: value['mapLocation'] ?? "Location not given",
             number: value['mobileNumber'] ?? "No number",
             url: value['lostImg'] ?? "",
+            billurl: value['billImg'].isEmpty ? "" : value["billImg"],
             // reward: value['reward'] ?? 0,
             reward: value['reward'].isEmpty ? "No Reward" : value['reward'],
           ),

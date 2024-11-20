@@ -14,7 +14,8 @@ dynamic item;
 List list = [];
 
 class DescriptionPage extends StatefulWidget {
-  DescriptionPage({super.key, int? index,dynamic citem,required List filterItems}) {
+  DescriptionPage(
+      {super.key, int? index, dynamic citem, required List filterItems}) {
     globalIndex = index; // Assign the index of the clicked item
     item = citem;
     list = filterItems;
@@ -29,7 +30,8 @@ class _DescriptionPageState extends State<DescriptionPage> {
   Widget build(BuildContext context) {
     // Choose the correct list and item based on the global category
     final isLost = globalCategory == "Lost";
-    final currentItem = isLost ? lostCards[globalIndex ?? 0] : foundCards[globalIndex ?? 0];
+    final currentItem =
+        isLost ? lostCards[globalIndex ?? 0] : foundCards[globalIndex ?? 0];
 
     return Scaffold(
       appBar: AppBar(
@@ -112,8 +114,10 @@ class _DescriptionPageState extends State<DescriptionPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildIconContainer(Icons.call_sharp, "Call", Colors.green, () {}),
-                  _buildIconContainer(Icons.message, "Message", Colors.orange, () {}),
+                  _buildIconContainer(
+                      Icons.call_sharp, "Call", Colors.green, () {}),
+                  _buildIconContainer(
+                      Icons.message, "Message", Colors.orange, () {}),
                   _buildIconContainer(Icons.email, "Email", Colors.red, () {}),
                   _buildIconContainer(Icons.share, "Share", Colors.blue, () {}),
                 ],
@@ -141,7 +145,9 @@ class _DescriptionPageState extends State<DescriptionPage> {
                         ),
                         Tab(
                           child: Text(
-                            (list.runtimeType == List<LostModel>) ? "Owner" : "Finder",
+                            (list.runtimeType == List<LostModel>)
+                                ? "Owner"
+                                : "Finder",
                             style: const TextStyle(
                               fontSize: 17,
                             ),
@@ -150,7 +156,7 @@ class _DescriptionPageState extends State<DescriptionPage> {
                       ],
                     ),
                     SizedBox(
-                      height: 400, // Adjust height as needed
+                      height: 450, // Adjust height as needed
                       child: TabBarView(
                         children: [
                           // Pass details to the respective tabs
@@ -159,6 +165,22 @@ class _DescriptionPageState extends State<DescriptionPage> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 10),
+                    // Display the item's image
+                    Center(
+                      child: Container(
+                        height: 300,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Image.network(
+                          item.url.toString(),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),
@@ -170,7 +192,8 @@ class _DescriptionPageState extends State<DescriptionPage> {
   }
 
   // Utility method to build action buttons
-  Widget _buildIconContainer(IconData icon, String label, Color color, VoidCallback onTap) {
+  Widget _buildIconContainer(
+      IconData icon, String label, Color color, VoidCallback onTap) {
     return Expanded(
       child: GestureDetector(
         onTap: onTap,

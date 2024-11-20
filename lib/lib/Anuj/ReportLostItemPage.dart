@@ -86,6 +86,9 @@ class _ReportFoundState extends State<ReportLost>
   File? image;
   final ImagePicker picker = ImagePicker();
 
+  final ImagePicker billpicker = ImagePicker();
+  File? billimage;
+
   Future<void> pickImage(ImageSource source) async {
     final XFile? pickedFile = await picker.pickImage(source: source);
 
@@ -96,96 +99,106 @@ class _ReportFoundState extends State<ReportLost>
     }
   }
 
+  Future<void> billpickImage(ImageSource source) async {
+    final XFile? pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      setState(() {
+        billimage = File(pickedFile.path); // Store as XFile
+      });
+    }
+  }
 
   // Function to open map dialog and get the current location
-    Future<void> _openMapDialog() async {
-      Position position = await _getCurrentPosition();
-      LatLng currentPosition = LatLng(position.latitude, position.longitude);
+  Future<void> _openMapDialog() async {
+    Position position = await _getCurrentPosition();
+    LatLng currentPosition = LatLng(position.latitude, position.longitude);
 
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            child: Container(
-              height: 400,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: GoogleMap(
-                      initialCameraPosition: CameraPosition(
-                        target: currentPosition,
-                        zoom: 15,
-                      ),
-                      onMapCreated: (GoogleMapController controller) {
-                        _controller = controller;
-                      },
-                      onTap: (LatLng latLng) async {
-                        setState(() {
-                          _pickedLocation = latLng;
-                        });
-                        await _fetchAddress(latLng);
-                      },
-                      markers: _pickedLocation == null
-                          ? Set()
-                          : {
-                              Marker(
-                                markerId: MarkerId("pickedLocation"),
-                                position: _pickedLocation!,
-                              ),
-                            },
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: SizedBox(
+            height: 400,
+            child: Column(
+              children: [
+                Expanded(
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: currentPosition,
+                      zoom: 15,
                     ),
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller = controller;
+                    },
+                    onTap: (LatLng latLng) async {
+                      setState(() {
+                        _pickedLocation = latLng;
+                      });
+                      await _fetchAddress(latLng);
+                    },
+                    markers: _pickedLocation == null
+                        ? <Marker>{} // Specify the type explicitly as <Marker>
+                        : {
+                            Marker(
+                              markerId: const MarkerId("pickedLocation"),
+                              position: _pickedLocation!,
+                            ),
+                          },
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.close),
-                        onPressed: () {
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_pickedLocation != null) {
                           Navigator.pop(context);
-                        },
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_pickedLocation != null) {
-                            Navigator.pop(context);
-                            setState(() {
-                              mapLocationController.text = address;
-                            });
-                          }
-                        },
-                        child: Text("Select Location"),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                          setState(() {
+                            mapLocationController.text = address;
+                          });
+                        }
+                      },
+                      child: const Text("Select Location"),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          );
-        },
-      );
-    }
-  
+          ),
+        );
+      },
+    );
+  }
 
   // Function to get current position
-    Future<Position> _getCurrentPosition() async {
-      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      LocationPermission permission = await Geolocator.checkPermission();
+  Future<Position> _getCurrentPosition() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    LocationPermission permission = await Geolocator.checkPermission();
 
-      if (!serviceEnabled) {
-        await Geolocator.requestPermission();
-      } else if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
-        await Geolocator.requestPermission();
-      }
-
-      return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    if (!serviceEnabled) {
+      await Geolocator.requestPermission();
+    } else if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      await Geolocator.requestPermission();
     }
 
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
 
   Future<void> _fetchAddress(LatLng latLng) async {
     try {
       // Fetch the list of placemarks from the given latitude and longitude
-      List<Placemark> placemarks = await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
-      
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
+
       if (placemarks.isNotEmpty) {
         // Get the first result (usually, the most relevant address)
         Placemark place = placemarks[0];
@@ -195,28 +208,34 @@ class _ReportFoundState extends State<ReportLost>
 
         // Combine street number and street name if available
         if (place.subThoroughfare != null) {
-          fullStreetAddress += "${place.subThoroughfare!} "; // Street number (if exists)
+          fullStreetAddress +=
+              "${place.subThoroughfare!} "; // Street number (if exists)
         }
         if (place.thoroughfare != null) {
           fullStreetAddress += place.thoroughfare!; // Street name
         }
 
         // Format the address with locality, administrative area, and country
-        String detailedAddress = '$fullStreetAddress, ${place.locality}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}';
-        
+        String detailedAddress =
+            '$fullStreetAddress, ${place.locality}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}';
+
         // Clean up any trailing commas or null values
-        String briefAddress = detailedAddress.replaceAll(RegExp(r',\s*$'), ''); // Trim trailing commas
+        String briefAddress = detailedAddress.replaceAll(
+            RegExp(r',\s*$'), ''); // Trim trailing commas
 
         setState(() {
-          address = briefAddress;  // Store the fetched address in the _address variable
+          address =
+              briefAddress; // Store the fetched address in the _address variable
         });
       }
     } catch (e) {
       setState(() {
-        address = 'Address not found';  // In case of error, set a default message
+        address =
+            'Address not found'; // In case of error, set a default message
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     selectedCategory = null;
@@ -390,7 +409,10 @@ class _ReportFoundState extends State<ReportLost>
                                     fontWeight: FontWeight.bold,
                                   ),
                                   suffixIcon: IconButton(
-                                    icon: const Icon(Icons.location_on,size: 30,),
+                                    icon: const Icon(
+                                      Icons.location_on,
+                                      size: 30,
+                                    ),
                                     onPressed: _openMapDialog,
                                   ),
                                 ),
@@ -527,6 +549,41 @@ class _ReportFoundState extends State<ReportLost>
                           const SizedBox(
                             height: 20,
                           ),
+
+                          //pick image for bill receipt
+                          const Text("Pick an image for Bill Receipt.",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17,
+                            ),
+                          ),
+
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          billimage != null
+                              ? Image.file(
+                                  image!,
+                                  height: 200,
+                                  width: 200,
+                                  fit: BoxFit.cover,
+                                )
+                              : const Text("No image selected"),
+                          const SizedBox(height: 20),
+                          ElevatedButton.icon(
+                            icon: const Icon(Icons.photo_library),
+                            label: const Text("Choose from Gallery"),
+                            onPressed: () => pickImage(ImageSource.gallery),
+                          ),
+                          const SizedBox(height: 10),
+                          ElevatedButton.icon(
+                            icon: const Icon(Icons.camera_alt),
+                            label: const Text("Take a Photo"),
+                            onPressed: () => pickImage(ImageSource.camera),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
                         ],
                       ),
                     ),
@@ -541,44 +598,52 @@ class _ReportFoundState extends State<ReportLost>
                         // print("1");
                         print(categoryController);
                         if (nameController.text.trim().isNotEmpty &&
-                            dateController.text.trim().isNotEmpty &&
-                            locationController.text.trim().isNotEmpty &&
-                            // mapLocationController.text.trim().isNotEmpty &&
-                            descriptionController.text.trim().isNotEmpty &&
-                            numberController.text.trim().isNotEmpty 
+                                dateController.text.trim().isNotEmpty &&
+                                locationController.text.trim().isNotEmpty &&
+                                mapLocationController.text.trim().isNotEmpty &&
+                                descriptionController.text.trim().isNotEmpty &&
+                                numberController.text.trim().isNotEmpty
                             // image != null
                             ) {
-
+                          print(categoryController);
                           print(categoryController);
 
-                          // String fileName = image!.path.split('/').last +
-                          //     DateTime.now().toString();
+                          //Item image
+                          String fileName =
+                              image!.path + DateTime.now().toString();
 
-                          // await FirebaseStorage.instance
-                          //     .ref()
-                          //     .child(fileName)
-                          //     .putFile(image!); // Convert XFile to File here
+                          print(categoryController);
+                            await FirebaseStorage.instance
+                                .ref()
+                                .child(fileName)
+                                .putFile(image!);
 
-                          // String fileName =
-                          //     image!.name + DateTime.now().toString();
+                          log("Download item url from Firebase");
 
-                          // log("Add Image to Firebase");
+                          String url = await FirebaseStorage.instance
+                              .ref()
+                              .child(fileName)
+                              .getDownloadURL();
 
-                          // await FirebaseStorage.instance
-                          //     .ref()
-                          //     .child(fileName)
-                          //     .putFile(
-                          //       File(image!.path),
-                          //     );
+                          log(url);
 
-                          log("Download url from Firebase");
+                          //Bill image
+                          String billfileName =
+                              billimage!.path + DateTime.now().toString();
 
-                          // String url = await FirebaseStorage.instance
-                          //     .ref()
-                          //     .child(fileName)
-                          //     .getDownloadURL();
+                            await FirebaseStorage.instance
+                                .ref()
+                                .child(billfileName)
+                                .putFile(image!);
 
-                          // log(url);
+                          log("Download bill receipt url from Firebase");
+
+                          String billurl = await FirebaseStorage.instance
+                              .ref()
+                              .child(billfileName)
+                              .getDownloadURL();
+
+                          log(url);
 
                           Map<String, dynamic> data = {
                             "category": categoryController.toString(),
@@ -588,8 +653,9 @@ class _ReportFoundState extends State<ReportLost>
                             "location": locationController.text.trim(),
                             "mobileNumber": numberController.text.trim(),
                             "reward": rewardController.text.trim(),
-                            "maplocation" : mapLocationController.text.trim(),
-                            // "lostImg": url,
+                            "maplocation": mapLocationController.text.trim(),
+                            "billImg" : billurl,
+                            "lostImg": url,
                           };
 
                           log("DATA ADDED :- $data");
@@ -611,6 +677,7 @@ class _ReportFoundState extends State<ReportLost>
                           rewardController.clear();
                           selectedCategory = null;
                           image = null;
+                          billimage = null;
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -637,12 +704,16 @@ class _ReportFoundState extends State<ReportLost>
                                   date: value['date'] ?? "Unknown date",
                                   location:
                                       value['location'] ?? "Unknown location",
-                                      mapLocation: value['mapLocation'] ?? "Location not given" ,
+                                  mapLocation: value['mapLocation'] ??
+                                      "Location not given",
                                   description:
                                       value['description'] ?? "No description",
                                   number: value['mobileNumber'] ?? "No number",
                                   url: value['lostImg'] ?? "",
-                                  reward: value['reward'].isEmpty ? "No Reward" : value['reward'],
+                                  billurl: value['billImg'].isEmpty ? "" :value["billImg"],
+                                  reward: value['reward'].isEmpty
+                                      ? "No Reward"
+                                      : value['reward'],
                                 ),
                               );
                             } catch (e) {

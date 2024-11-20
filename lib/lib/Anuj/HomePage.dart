@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -14,6 +15,8 @@ import '../Kaushal/Category/category_list.dart';
 import '../Shivam/Notifications.dart';
 import '../Shivam/Profile_Page.dart';
 import './BottomSheetNavigation.dart';
+import 'FoundModel.dart';
+import 'LostModel.dart';
 
 //For Search Functionality
 class ItemSearchDelegate extends SearchDelegate {
@@ -154,7 +157,81 @@ class BackgroundDecoration extends StatelessWidget {
 class AppbarClassState extends State<HomepageClass> {
   int notificationCount = 3;
 
-  //For carasouel
+  // For carasouel
+  Future<void> load() async {
+    // foundCards.clear();
+    // lostCards.clear();
+
+    QuerySnapshot response = await FirebaseFirestore.instance
+        .collection("foundItemsInfo")
+        .orderBy('timestamp', descending: true)
+        .get();
+
+    for (var value in response.docs) {
+      foundCards.add(
+        FoundModel(
+          id: value.id,
+          name: value['itemName'],
+          category: value['category'],
+          date: value['date'],
+          location: value['location'],
+          description: value['description'],
+          url: value['foundImg'],
+          number: value['mobileNumber'],
+        ),
+      );
+      print(foundCards);
+    }
+
+    QuerySnapshot responsel = await FirebaseFirestore.instance
+        .collection("lostItemsInfo")
+        .orderBy('timestamp', descending: true)
+        .get();
+
+    // log(response as String);
+
+    for (var value in responsel.docs) {
+      // print(value['palyerName']);
+      try {
+        lostCards.add(
+          LostModel(
+            id: value.id,
+            name: value['itemName'] ?? "Unknown",
+            category: value['category'] ?? "Uncategorized",
+            date: value['date'] ?? "Unknown date",
+            location: value['location'] ?? "Unknown location",
+            description: value['description'] ?? "No description",
+            mapLocation: value['mapLocation'] ?? "Location not given",
+            number: value['mobileNumber'] ?? "No number",
+            url: value['lostImg'] ?? "",
+            billurl: value['billImg'].isEmpty ? "" : value["billImg"],
+            reward: value['reward'].isEmpty ? "No Reward" : value['reward'],
+          ),
+        );
+      } catch (e) {
+        log("Error processing document ${value.id}: $e");
+      }
+    }
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    pageController = PageController(
+      initialPage: 0,
+      viewportFraction: 0.85,
+    );
+
+    startAutoScrollForFirstGrid();
+    startAutoScrollForFirstGrid();
+
+    carasouelTimer = getTimer();
+
+    load();
+
+    super.initState();
+  }
 
   Lostpage lostpage = Lostpage(imagesUrls: [
     foundCards[foundCards.length - 1].url.toString(),
@@ -308,21 +385,6 @@ class AppbarClassState extends State<HomepageClass> {
         }
       }
     });
-  }
-
-  @override
-  void initState() {
-    pageController = PageController(
-      initialPage: 0,
-      viewportFraction: 0.85,
-    );
-
-    startAutoScrollForFirstGrid();
-    startAutoScrollForFirstGrid();
-
-    carasouelTimer = getTimer();
-
-    super.initState();
   }
 
   @override
