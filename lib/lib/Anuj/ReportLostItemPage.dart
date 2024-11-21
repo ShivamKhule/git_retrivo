@@ -523,6 +523,8 @@ class _ReportFoundState extends State<ReportLost>
                               ),
                             ),
                           ),
+
+
                           const SizedBox(
                             height: 20,
                           ),
@@ -563,7 +565,7 @@ class _ReportFoundState extends State<ReportLost>
                           ),
                           billimage != null
                               ? Image.file(
-                                  image!,
+                                  billimage!,
                                   height: 200,
                                   width: 200,
                                   fit: BoxFit.cover,
@@ -573,13 +575,13 @@ class _ReportFoundState extends State<ReportLost>
                           ElevatedButton.icon(
                             icon: const Icon(Icons.photo_library),
                             label: const Text("Choose from Gallery"),
-                            onPressed: () => pickImage(ImageSource.gallery),
+                            onPressed: () => billpickImage(ImageSource.gallery),
                           ),
                           const SizedBox(height: 10),
                           ElevatedButton.icon(
                             icon: const Icon(Icons.camera_alt),
                             label: const Text("Take a Photo"),
-                            onPressed: () => pickImage(ImageSource.camera),
+                            onPressed: () => billpickImage(ImageSource.camera),
                           ),
                           const SizedBox(
                             height: 20,
@@ -597,14 +599,15 @@ class _ReportFoundState extends State<ReportLost>
 
                         // print("1");
                         print(categoryController);
-                        if (nameController.text.trim().isNotEmpty &&
-                                dateController.text.trim().isNotEmpty &&
-                                locationController.text.trim().isNotEmpty &&
-                                mapLocationController.text.trim().isNotEmpty &&
-                                descriptionController.text.trim().isNotEmpty &&
-                                numberController.text.trim().isNotEmpty
+                        // if (
+                          // nameController.text.trim().isNotEmpty &&
+                          //       dateController.text.trim().isNotEmpty &&
+                          //       locationController.text.trim().isNotEmpty &&
+                          //       mapLocationController.text.trim().isNotEmpty &&
+                          //       descriptionController.text.trim().isNotEmpty &&
+                          //       numberController.text.trim().isNotEmpty
                             // image != null
-                            ) {
+                            // ) {
                           print(categoryController);
                           print(categoryController);
 
@@ -628,22 +631,22 @@ class _ReportFoundState extends State<ReportLost>
                           log(url);
 
                           //Bill image
-                          String billfileName =
-                              billimage!.path + DateTime.now().toString();
+                          // String billfileName =
+                          //     billimage!.path + DateTime.now().toString();
 
-                            await FirebaseStorage.instance
-                                .ref()
-                                .child(billfileName)
-                                .putFile(image!);
+                          //   await FirebaseStorage.instance
+                          //       .ref()
+                          //       .child(billfileName)
+                          //       .putFile(billimage!);
 
-                          log("Download bill receipt url from Firebase");
+                          // log("Download bill receipt url from Firebase");
 
-                          String billurl = await FirebaseStorage.instance
-                              .ref()
-                              .child(billfileName)
-                              .getDownloadURL();
+                          // String billurl = await FirebaseStorage.instance
+                          //     .ref()
+                          //     .child(billfileName)
+                          //     .getDownloadURL();
 
-                          log(url);
+                          // log(billurl);
 
                           Map<String, dynamic> data = {
                             "category": categoryController.toString(),
@@ -654,7 +657,7 @@ class _ReportFoundState extends State<ReportLost>
                             "mobileNumber": numberController.text.trim(),
                             "reward": rewardController.text.trim(),
                             "maplocation": mapLocationController.text.trim(),
-                            "billImg" : billurl,
+                            // "billImg" : billurl,
                             "lostImg": url,
                           };
 
@@ -677,7 +680,7 @@ class _ReportFoundState extends State<ReportLost>
                           rewardController.clear();
                           selectedCategory = null;
                           image = null;
-                          billimage = null;
+                          // billimage = null;
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -720,7 +723,7 @@ class _ReportFoundState extends State<ReportLost>
                               log("Error processing document ${value.id}: $e");
                             }
                           }
-                        }
+                        // }
                       },
                       child: Container(
                         height: 50,

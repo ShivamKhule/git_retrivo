@@ -180,7 +180,7 @@ class AppbarClassState extends State<HomepageClass> {
           number: value['mobileNumber'],
         ),
       );
-      print(foundCards);
+      log(foundCards.toString());
     }
 
     QuerySnapshot responsel = await FirebaseFirestore.instance
@@ -228,24 +228,76 @@ class AppbarClassState extends State<HomepageClass> {
 
     carasouelTimer = getTimer();
 
-    load();
+    Future.delayed(Duration.zero, () async {
+      await load();
+      lostpage = Lostpage(imagesUrls: [
+        foundCards[foundCards.length - 1].url.toString(),
+        foundCards[foundCards.length - 2].url.toString(),
+        foundCards[foundCards.length - 3].url.toString(),
+        foundCards[foundCards.length - 4].url.toString(),
+      ]);
+    
+    foundpage = Lostpage(imagesUrls: [
+      lostCards[lostCards.length - 1].url.toString(),
+      lostCards[lostCards.length - 2].url.toString(),
+      lostCards[lostCards.length - 3].url.toString(),
+      lostCards[lostCards.length - 4].url.toString(),
+    ]);
+    lostname = [
+      lostCards[lostCards.length - 1].name,
+      lostCards[lostCards.length - 2].name,
+      lostCards[lostCards.length - 3].name,
+      lostCards[lostCards.length - 4].name,
+    ];
+    foundname = [
+      foundCards[foundCards.length - 1].name,
+      foundCards[foundCards.length - 2].name,
+      foundCards[foundCards.length - 3].name,
+      foundCards[foundCards.length - 4].name,
+    ];
+
+    carouselData = [
+      {
+        'image': lostCards[0].url,
+        'title': "Lost ${lostCards[0].name}",
+        'description': "Found ${lostCards[0].description}",
+      },
+      {
+        'image': lostCards[1].url,
+        'title': "Lost ${lostCards[1].name}",
+        'description': "Found ${lostCards[1].description}",
+      },
+      {
+        'image': lostCards[2].url,
+        'title': "Lost ${lostCards[2].name}",
+        'description': "Found ${lostCards[2].description}",
+      },
+      {
+        'image': foundCards[0].url.toString(),
+        'title': "Found ${foundCards[0].name}",
+        'description': "Found ${foundCards[0].description}",
+      },
+      {
+        'image': foundCards[1].url.toString(),
+        'title': "Found ${foundCards[1].name}",
+        'description': "Found ${foundCards[1].description}",
+      },
+      {
+        'image': foundCards[2].url.toString(),
+        'title': "Found ${foundCards[2].name}",
+        'description': "Found ${foundCards[2].description}",
+      },
+    ];
+    });
 
     super.initState();
   }
 
-  Lostpage lostpage = Lostpage(imagesUrls: [
-    foundCards[foundCards.length - 1].url.toString(),
-    foundCards[foundCards.length - 2].url.toString(),
-    foundCards[foundCards.length - 3].url.toString(),
-    foundCards[foundCards.length - 4].url.toString(),
-  ]);
-
-  Lostpage foundpage = Lostpage(imagesUrls: [
-    lostCards[lostCards.length - 1].url.toString(),
-    lostCards[lostCards.length - 2].url.toString(),
-    lostCards[lostCards.length - 3].url.toString(),
-    lostCards[lostCards.length - 4].url.toString(),
-  ]);
+  Lostpage? lostpage;
+  List<String>? lostname;
+  List<String>? foundname;
+  Lostpage? foundpage;
+  List<Map<String, String>>? carouselData;
 
   List<String> fieldCategory1 = [
     "assets/anuj/homepage/caterogyimg/electronics.jpg",
@@ -615,7 +667,7 @@ class AppbarClassState extends State<HomepageClass> {
                   Container(
                       height: 300,
                       margin: const EdgeInsets.only(top: 18),
-                      child: carousel()),
+                      child: carousel(carouselData)),
                   const SizedBox(
                     height: 5,
                   ),
@@ -715,7 +767,9 @@ class AppbarClassState extends State<HomepageClass> {
                   const SizedBox(
                     height: 20,
                   ),
-                  lostCarousel(lostpage.imagesUrls),
+                  lostpage == null
+                      ? Container()
+                      : lostCarousel(lostpage!.imagesUrls, foundname),
                   const SizedBox(
                     height: 20,
                   ),
@@ -756,7 +810,9 @@ class AppbarClassState extends State<HomepageClass> {
                   const SizedBox(
                     height: 20,
                   ),
-                  foundCarousel(foundpage.imagesUrls),
+                  foundpage == null
+                      ? Container()
+                      : foundCarousel(foundpage!.imagesUrls, lostname),
                   const SizedBox(
                     height: 20,
                   ),
@@ -806,40 +862,7 @@ class AppbarClassState extends State<HomepageClass> {
     );
   }
 
-  Widget carousel() {
-    final List<Map<String, String>> carouselData = [
-      {
-        'image': lostCards[0].url,
-        'title': "Lost ${lostCards[0].name}",
-        'description': "Found ${lostCards[0].description}",
-      },
-      {
-        'image': lostCards[1].url,
-        'title': "Lost ${lostCards[1].name}",
-        'description': "Found ${lostCards[1].description}",
-      },
-      {
-        'image': lostCards[2].url,
-        'title': "Lost ${lostCards[2].name}",
-        'description': "Found ${lostCards[2].description}",
-      },
-      {
-        'image': foundCards[0].url.toString(),
-        'title': "Found ${foundCards[0].name}",
-        'description': "Found ${foundCards[0].description}",
-      },
-      {
-        'image': foundCards[1].url.toString(),
-        'title': "Found ${foundCards[1].name}",
-        'description': "Found ${foundCards[1].description}",
-      },
-      {
-        'image': foundCards[2].url.toString(),
-        'title': "Found ${foundCards[2].name}",
-        'description': "Found ${foundCards[2].description}",
-      },
-    ];
-
+  Widget carousel(List<Map<String, String>>? carouselData) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: 265,
@@ -884,8 +907,11 @@ class AppbarClassState extends State<HomepageClass> {
                             borderRadius: BorderRadius.circular(24),
                             image: DecorationImage(
                               image:
-                                  NetworkImage(carouselData[index]['image']!),
-                              fit: BoxFit.contain,
+                                  NetworkImage(
+                                    carouselData == null ? "" :
+                                    carouselData[index]['image']!
+                                    ),
+                              fit: BoxFit.fill,
                             ),
                           ),
                           child: Stack(
@@ -909,6 +935,7 @@ class AppbarClassState extends State<HomepageClass> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
+                                      carouselData == null ? "" :
                                       carouselData[index]['title']!,
                                       style: TextStyle(
                                         color: Colors.white,
@@ -926,6 +953,7 @@ class AppbarClassState extends State<HomepageClass> {
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
+                                      carouselData == null ? "" :
                                       carouselData[index]['description']!,
                                       style: TextStyle(
                                         color: Colors.white70,
@@ -950,7 +978,7 @@ class AppbarClassState extends State<HomepageClass> {
                     ),
                   );
                 },
-                itemCount: carouselData.length,
+                itemCount: carouselData == null ? 0 :carouselData.length,
               ),
             ),
             const SizedBox(height: 10),
@@ -958,6 +986,7 @@ class AppbarClassState extends State<HomepageClass> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
+                carouselData == null ? 0 :
                 carouselData.length,
                 (index) => Container(
                   margin: const EdgeInsets.symmetric(horizontal: 2),
@@ -1139,14 +1168,9 @@ class AppbarClassState extends State<HomepageClass> {
   }
 }
 
-Widget foundCarousel(List<String> images) {
+Widget foundCarousel(List<String> images, List<String>? lostname) {
   // List of found names corresponding to the images
-  List<String> foundname = [
-    lostCards[lostCards.length - 1].name,
-    lostCards[lostCards.length - 2].name,
-    lostCards[lostCards.length - 3].name,
-    lostCards[lostCards.length - 4].name,
-  ];
+  // List<String>? foundname;
 
   return Column(
     children: [
@@ -1318,8 +1342,10 @@ Widget foundCarousel(List<String> images) {
                   bottom: 10,
                   left: 10,
                   child: Text(
-                    foundname[
-                        index], // Use the corresponding name for the image
+                    lostname == null
+                        ? ""
+                        : lostname[
+                            index], // Use the corresponding name for the image
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -1336,14 +1362,8 @@ Widget foundCarousel(List<String> images) {
   );
 }
 
-Widget lostCarousel(List<String> images) {
+Widget lostCarousel(List<String> images, List<String>? foundname) {
   // List of lost item names corresponding to the images
-  List<String> foundname = [
-    foundCards[foundCards.length - 1].name,
-    foundCards[foundCards.length - 2].name,
-    foundCards[foundCards.length - 3].name,
-    foundCards[foundCards.length - 4].name,
-  ];
 
   return Column(
     children: [
@@ -1507,8 +1527,10 @@ Widget lostCarousel(List<String> images) {
                   bottom: 10,
                   left: 10,
                   child: Text(
-                    foundname[
-                        index], // Display the corresponding name for the image
+                    foundname == null
+                        ? ""
+                        : foundname[
+                            index], // Display the corresponding name for the image
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,

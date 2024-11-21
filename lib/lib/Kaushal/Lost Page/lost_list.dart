@@ -77,7 +77,7 @@ class _LostPageState extends State<LostPage> {
       }
       // log(lostCards as String);
 
-      // setState(() {});
+      setState(() {});
     }
     // BottomSheet for filter functionality (to be implemented)
   }
