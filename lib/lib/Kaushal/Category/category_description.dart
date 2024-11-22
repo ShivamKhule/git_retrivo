@@ -10,14 +10,14 @@ import 'category_Item_Details.dart';
 // import 'Owner_Details.dart';
 
 int? globalIndex;
-dynamic item;
+// dynamic item;
 List list = [];
 
 class DescriptionPage extends StatefulWidget {
   DescriptionPage(
       {super.key, int? index, dynamic citem, required List filterItems}) {
     globalIndex = index; // Assign the index of the clicked item
-    item = citem;
+    // item = citem;
     list = filterItems;
   }
 
@@ -29,9 +29,9 @@ class _DescriptionPageState extends State<DescriptionPage> {
   @override
   Widget build(BuildContext context) {
     // Choose the correct list and item based on the global category
-    final isLost = globalCategory == "Lost";
-    final currentItem =
-        isLost ? lostCards[globalIndex ?? 0] : foundCards[globalIndex ?? 0];
+    // final isLost = globalCategory == "Lost";
+    // final currentItem =
+    //     isLost ? lostCards[globalIndex ?? 0] : foundCards[globalIndex ?? 0];
 
     return Scaffold(
       appBar: AppBar(
@@ -66,7 +66,7 @@ class _DescriptionPageState extends State<DescriptionPage> {
                   borderRadius: BorderRadius.circular(25),
                 ),
                 child: Image.network(
-                  item.url.toString(),
+                  list[globalIndex ?? 0].url.toString(),
                   fit: BoxFit.contain,
                 ),
               ),
@@ -147,7 +147,7 @@ class _DescriptionPageState extends State<DescriptionPage> {
                           child: Text(
                             (list.runtimeType == List<LostModel>)
                                 ? "Owner"
-                                : "Finder",
+                                : "Reported By",
                             style: const TextStyle(
                               fontSize: 17,
                             ),
@@ -161,12 +161,13 @@ class _DescriptionPageState extends State<DescriptionPage> {
                         children: [
                           // Pass details to the respective tabs
                           ItemDetails(temp: list, index: globalIndex ?? 0),
-                          const OwnerDetails(),
+                          OwnerDetails(temp: list, index: globalIndex ?? 0),
                         ],
                       ),
                     ),
                     const SizedBox(height: 10),
                     // Display the item's image
+                    if (list[globalIndex ?? 0].billurl != null) ...[ 
                     Center(
                       child: Container(
                         height: 300,
@@ -175,12 +176,13 @@ class _DescriptionPageState extends State<DescriptionPage> {
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: Image.network(
-                          item.url.toString(),
+                          list[globalIndex ?? 0].url.toString(),
                           fit: BoxFit.contain,
                         ),
                       ),
                     ),
                     const SizedBox(height: 10),
+                    ],
                   ],
                 ),
               ),

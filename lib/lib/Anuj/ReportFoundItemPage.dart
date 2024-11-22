@@ -412,12 +412,12 @@ class _ReportFoundState extends State<ReportFound>
                             ),
                           );
 
-                          QuerySnapshot response = await FirebaseFirestore
-                              .instance
-                              .collection("foundItemsInfo")
-                              // .orderBy('timestamp', descending: true)
-                              .get();
-                              
+                          QuerySnapshot response =
+                              await FirebaseFirestore.instance
+                                  .collection("foundItemsInfo")
+                                  // .orderBy('timestamp', descending: true)
+                                  .get();
+
                           foundCards.clear();
 
                           for (var value in response.docs) {
@@ -425,6 +425,8 @@ class _ReportFoundState extends State<ReportFound>
                             foundCards.add(
                               FoundModel(
                                 id: value.id,
+                                // ownerName: value['reporterName'],
+                                // email: value['email'] ?? "No email",
                                 name: value['itemName'],
                                 category: value['category'],
                                 date: value['date'],

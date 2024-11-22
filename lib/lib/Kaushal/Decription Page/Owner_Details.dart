@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class OwnerDetails extends StatelessWidget {
-  const OwnerDetails({super.key});
+  List temp = [];
+  int index;
+  OwnerDetails({super.key,required this.temp,required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +22,14 @@ class OwnerDetails extends StatelessWidget {
             ),
           ],
         ),
-        child: const Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DetailRow(title: "Name", value: "Aaditya Patil"),
-            Divider(),
-            DetailRow(title: "Contact", value: "9876543210"),
-            Divider(),
-            DetailRow(title: "E-mail", value: "Aadi@gamil.com"),
+            DetailRow(title: "Name", value: temp[index].ownerName),
+            const Divider(),
+            DetailRow(title: "Contact", value: temp[index].mobileNumber),
+            const Divider(),
+            DetailRow(title: "E-mail", value: temp[index].email),
           ],
         ),
       ),

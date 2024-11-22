@@ -174,6 +174,8 @@ class AppbarClassState extends State<HomepageClass> {
           name: value['itemName'],
           category: value['category'],
           date: value['date'],
+          // ownerName: value['reporterName'],
+          // email: value['email'] ?? "No email",
           location: value['location'],
           description: value['description'],
           url: value['foundImg'],
@@ -203,6 +205,8 @@ class AppbarClassState extends State<HomepageClass> {
             description: value['description'] ?? "No description",
             mapLocation: value['mapLocation'] ?? "Location not given",
             number: value['mobileNumber'] ?? "No number",
+            ownerName: value['ownerName'],
+            email: value['email'] ?? "No email",
             url: value['lostImg'] ?? "",
             billurl: value['billImg'].isEmpty ? "" : value["billImg"],
             reward: value['reward'].isEmpty ? "No Reward" : value['reward'],
@@ -236,58 +240,58 @@ class AppbarClassState extends State<HomepageClass> {
         foundCards[foundCards.length - 3].url.toString(),
         foundCards[foundCards.length - 4].url.toString(),
       ]);
-    
-    foundpage = Lostpage(imagesUrls: [
-      lostCards[lostCards.length - 1].url.toString(),
-      lostCards[lostCards.length - 2].url.toString(),
-      lostCards[lostCards.length - 3].url.toString(),
-      lostCards[lostCards.length - 4].url.toString(),
-    ]);
-    lostname = [
-      lostCards[lostCards.length - 1].name,
-      lostCards[lostCards.length - 2].name,
-      lostCards[lostCards.length - 3].name,
-      lostCards[lostCards.length - 4].name,
-    ];
-    foundname = [
-      foundCards[foundCards.length - 1].name,
-      foundCards[foundCards.length - 2].name,
-      foundCards[foundCards.length - 3].name,
-      foundCards[foundCards.length - 4].name,
-    ];
 
-    carouselData = [
-      {
-        'image': lostCards[0].url,
-        'title': "Lost ${lostCards[0].name}",
-        'description': "Found ${lostCards[0].description}",
-      },
-      {
-        'image': lostCards[1].url,
-        'title': "Lost ${lostCards[1].name}",
-        'description': "Found ${lostCards[1].description}",
-      },
-      {
-        'image': lostCards[2].url,
-        'title': "Lost ${lostCards[2].name}",
-        'description': "Found ${lostCards[2].description}",
-      },
-      {
-        'image': foundCards[0].url.toString(),
-        'title': "Found ${foundCards[0].name}",
-        'description': "Found ${foundCards[0].description}",
-      },
-      {
-        'image': foundCards[1].url.toString(),
-        'title': "Found ${foundCards[1].name}",
-        'description': "Found ${foundCards[1].description}",
-      },
-      {
-        'image': foundCards[2].url.toString(),
-        'title': "Found ${foundCards[2].name}",
-        'description': "Found ${foundCards[2].description}",
-      },
-    ];
+      foundpage = Lostpage(imagesUrls: [
+        lostCards[lostCards.length - 1].url.toString(),
+        lostCards[lostCards.length - 2].url.toString(),
+        lostCards[lostCards.length - 3].url.toString(),
+        lostCards[lostCards.length - 4].url.toString(),
+      ]);
+      lostname = [
+        lostCards[lostCards.length - 1].name,
+        lostCards[lostCards.length - 2].name,
+        lostCards[lostCards.length - 3].name,
+        lostCards[lostCards.length - 4].name,
+      ];
+      foundname = [
+        foundCards[foundCards.length - 1].name,
+        foundCards[foundCards.length - 2].name,
+        foundCards[foundCards.length - 3].name,
+        foundCards[foundCards.length - 4].name,
+      ];
+
+      carouselData = [
+        {
+          'image': lostCards[0].url,
+          'title': "Lost ${lostCards[0].name}",
+          'description': "Found ${lostCards[0].description}",
+        },
+        {
+          'image': lostCards[1].url,
+          'title': "Lost ${lostCards[1].name}",
+          'description': "Found ${lostCards[1].description}",
+        },
+        {
+          'image': lostCards[2].url,
+          'title': "Lost ${lostCards[2].name}",
+          'description': "Found ${lostCards[2].description}",
+        },
+        {
+          'image': foundCards[0].url.toString(),
+          'title': "Found ${foundCards[0].name}",
+          'description': "Found ${foundCards[0].description}",
+        },
+        {
+          'image': foundCards[1].url.toString(),
+          'title': "Found ${foundCards[1].name}",
+          'description': "Found ${foundCards[1].description}",
+        },
+        {
+          'image': foundCards[2].url.toString(),
+          'title': "Found ${foundCards[2].name}",
+          'description': "Found ${foundCards[2].description}",
+        },
+      ];
     });
 
     super.initState();
@@ -906,11 +910,9 @@ class AppbarClassState extends State<HomepageClass> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(24),
                             image: DecorationImage(
-                              image:
-                                  NetworkImage(
-                                    carouselData == null ? "" :
-                                    carouselData[index]['image']!
-                                    ),
+                              image: NetworkImage(carouselData == null
+                                  ? ""
+                                  : carouselData[index]['image']!),
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -935,8 +937,9 @@ class AppbarClassState extends State<HomepageClass> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      carouselData == null ? "" :
-                                      carouselData[index]['title']!,
+                                      carouselData == null
+                                          ? ""
+                                          : carouselData[index]['title']!,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 24,
@@ -953,8 +956,9 @@ class AppbarClassState extends State<HomepageClass> {
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
-                                      carouselData == null ? "" :
-                                      carouselData[index]['description']!,
+                                      carouselData == null
+                                          ? ""
+                                          : carouselData[index]['description']!,
                                       style: TextStyle(
                                         color: Colors.white70,
                                         fontSize: 14,
@@ -978,7 +982,7 @@ class AppbarClassState extends State<HomepageClass> {
                     ),
                   );
                 },
-                itemCount: carouselData == null ? 0 :carouselData.length,
+                itemCount: carouselData == null ? 0 : carouselData.length,
               ),
             ),
             const SizedBox(height: 10),
@@ -986,8 +990,7 @@ class AppbarClassState extends State<HomepageClass> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                carouselData == null ? 0 :
-                carouselData.length,
+                carouselData == null ? 0 : carouselData.length,
                 (index) => Container(
                   margin: const EdgeInsets.symmetric(horizontal: 2),
                   child: Icon(

@@ -22,73 +22,11 @@ class BottomNavigation extends StatefulWidget {
 class BottomNavigationState extends State<BottomNavigation> {
   late int selectedIndex;
 
-  // Future<void> load() async {
-  //   // foundCards.clear();
-  //   // lostCards.clear();
-
-  //   QuerySnapshot response = await FirebaseFirestore.instance
-  //       .collection("foundItemsInfo")
-  //       .orderBy('timestamp', descending: true)
-  //       .get();
-
-  //   for (var value in response.docs) {
-  //     foundCards.add(
-  //       FoundModel(
-  //         id: value.id,
-  //         name: value['itemName'],
-  //         category: value['category'],
-  //         date: value['date'],
-  //         location: value['location'],
-  //         description: value['description'],
-  //         url: value['foundImg'],
-  //         number: value['mobileNumber'],
-  //       ),
-  //     );
-  //     print(foundCards);
-  //   }
-
-  //   QuerySnapshot responsel = await FirebaseFirestore.instance
-  //       .collection("lostItemsInfo")
-  //       .orderBy('timestamp', descending: true)
-  //       .get();
-
-  //   // log(response as String);
-
-  //   for (var value in responsel.docs) {
-  //     // print(value['palyerName']);
-  //     try {
-  //       lostCards.add(
-  //         LostModel(
-  //           id: value.id,
-  //           name: value['itemName'] ?? "Unknown",
-  //           category: value['category'] ?? "Uncategorized",
-  //           date: value['date'] ?? "Unknown date",
-  //           location: value['location'] ?? "Unknown location",
-  //           description: value['description'] ?? "No description",
-  //           mapLocation: value['mapLocation'] ?? "Location not given",
-  //           number: value['mobileNumber'] ?? "No number",
-  //           url: value['lostImg'] ?? "",
-
-  //           billurl: value['billImg'].isEmpty ? "" : value["billImg"],
-  //           // reward: value['reward'] ?? 0,
-  //           reward: value['reward'].isEmpty ? "No Reward" : value['reward'],
-  //         ),
-  //       );
-  //     } catch (e) {
-  //       log("Error processing document ${value.id}: $e");
-  //     }
-  //   }
-
-  //   // setState(() {});
-  // }
-
   final List<Widget> navPages = [
     const HomepageClass(),
     const ReportLostItemPage(),
     const ReportFoundItemPage(),
-    // const LostItemsPage(),
     const LostPage(),
-    // const FoundItemsPage(),
     const FoundPage(),
   ];
 
@@ -104,7 +42,6 @@ class BottomNavigationState extends State<BottomNavigation> {
   void initState() {
     super.initState();
     selectedIndex = widget.initialIndex;
-    // load();
   }
 
   void onItemTapped(int index) {

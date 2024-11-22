@@ -142,7 +142,7 @@ class _FoundDescriptionState extends State<FoundDescription> {
                         ),
                         Tab(
                           child: Text(
-                            "Finder",
+                            "Reported By",
                             style: TextStyle(
                               fontSize: 17,
                             ),
@@ -155,7 +155,7 @@ class _FoundDescriptionState extends State<FoundDescription> {
                       child: TabBarView(
                         children: [
                           ItemDetails(temp: foundCards,index : globalIndex ?? 0),
-                          const OwnerDetails(),
+                          OwnerDetails(temp: foundCards,index : globalIndex ?? 0),
                         ],
                       ),
                     ),

@@ -249,9 +249,6 @@ class _CategoryListState extends State<CategoryList>
   Widget _buildItem(dynamic item, int index, String type, Color labelColor) {
     return GestureDetector(
       onTap: () {
-        // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        //   return DescriptionPage();
-        // }));
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => DescriptionPage(
               index: index, citem: item, filterItems: filteredItems),

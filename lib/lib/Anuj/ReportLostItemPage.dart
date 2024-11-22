@@ -524,7 +524,6 @@ class _ReportFoundState extends State<ReportLost>
                             ),
                           ),
 
-
                           const SizedBox(
                             height: 20,
                           ),
@@ -553,7 +552,8 @@ class _ReportFoundState extends State<ReportLost>
                           ),
 
                           //pick image for bill receipt
-                          const Text("Pick an image for Bill Receipt.",
+                          const Text(
+                            "Pick an image for Bill Receipt.",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 17,
@@ -600,129 +600,131 @@ class _ReportFoundState extends State<ReportLost>
                         // print("1");
                         print(categoryController);
                         // if (
-                          // nameController.text.trim().isNotEmpty &&
-                          //       dateController.text.trim().isNotEmpty &&
-                          //       locationController.text.trim().isNotEmpty &&
-                          //       mapLocationController.text.trim().isNotEmpty &&
-                          //       descriptionController.text.trim().isNotEmpty &&
-                          //       numberController.text.trim().isNotEmpty
-                            // image != null
-                            // ) {
-                          print(categoryController);
-                          print(categoryController);
+                        // nameController.text.trim().isNotEmpty &&
+                        //       dateController.text.trim().isNotEmpty &&
+                        //       locationController.text.trim().isNotEmpty &&
+                        //       mapLocationController.text.trim().isNotEmpty &&
+                        //       descriptionController.text.trim().isNotEmpty &&
+                        //       numberController.text.trim().isNotEmpty
+                        // image != null
+                        // ) {
+                        print(categoryController);
+                        print(categoryController);
 
-                          //Item image
-                          String fileName =
-                              image!.path + DateTime.now().toString();
+                        //Item image
+                        String fileName =
+                            image!.path + DateTime.now().toString();
 
-                          print(categoryController);
-                            await FirebaseStorage.instance
-                                .ref()
-                                .child(fileName)
-                                .putFile(image!);
+                        print(categoryController);
+                        await FirebaseStorage.instance
+                            .ref()
+                            .child(fileName)
+                            .putFile(image!);
 
-                          log("Download item url from Firebase");
+                        log("Download item url from Firebase");
 
-                          String url = await FirebaseStorage.instance
-                              .ref()
-                              .child(fileName)
-                              .getDownloadURL();
+                        String url = await FirebaseStorage.instance
+                            .ref()
+                            .child(fileName)
+                            .getDownloadURL();
 
-                          log(url);
+                        log(url);
 
-                          //Bill image
-                          // String billfileName =
-                          //     billimage!.path + DateTime.now().toString();
+                        //Bill image
+                        // String billfileName =
+                        //     billimage!.path + DateTime.now().toString();
 
-                          //   await FirebaseStorage.instance
-                          //       .ref()
-                          //       .child(billfileName)
-                          //       .putFile(billimage!);
+                        //   await FirebaseStorage.instance
+                        //       .ref()
+                        //       .child(billfileName)
+                        //       .putFile(billimage!);
 
-                          // log("Download bill receipt url from Firebase");
+                        // log("Download bill receipt url from Firebase");
 
-                          // String billurl = await FirebaseStorage.instance
-                          //     .ref()
-                          //     .child(billfileName)
-                          //     .getDownloadURL();
+                        // String billurl = await FirebaseStorage.instance
+                        //     .ref()
+                        //     .child(billfileName)
+                        //     .getDownloadURL();
 
-                          // log(billurl);
+                        // log(billurl);
 
-                          Map<String, dynamic> data = {
-                            "category": categoryController.toString(),
-                            "date": dateController.text.trim(),
-                            "description": descriptionController.text.trim(),
-                            "itemName": nameController.text.trim(),
-                            "location": locationController.text.trim(),
-                            "mobileNumber": numberController.text.trim(),
-                            "reward": rewardController.text.trim(),
-                            "maplocation": mapLocationController.text.trim(),
-                            // "billImg" : billurl,
-                            "lostImg": url,
-                          };
+                        Map<String, dynamic> data = {
+                          "category": categoryController.toString(),
+                          "date": dateController.text.trim(),
+                          "description": descriptionController.text.trim(),
+                          "itemName": nameController.text.trim(),
+                          "location": locationController.text.trim(),
+                          "mobileNumber": numberController.text.trim(),
+                          "reward": rewardController.text.trim(),
+                          "maplocation": mapLocationController.text.trim(),
+                          // "billImg" : billurl,
+                          "lostImg": url,
+                        };
 
-                          log("DATA ADDED :- $data");
+                        log("DATA ADDED :- $data");
 
-                          DocumentReference ref = await FirebaseFirestore
-                              .instance
-                              .collection("lostItemsInfo")
-                              .add(data);
+                        DocumentReference ref = await FirebaseFirestore.instance
+                            .collection("lostItemsInfo")
+                            .add(data);
 
-                          log("ADDED DATA:- Document ID: ${ref.id}, Path: ${ref.path}");
+                        log("ADDED DATA:- Document ID: ${ref.id}, Path: ${ref.path}");
 
-                          // log("DATA ADDED :-");
+                        // log("DATA ADDED :-");
 
-                          nameController.clear();
-                          dateController.clear();
-                          locationController.clear();
-                          mapLocationController.clear();
-                          descriptionController.clear();
-                          rewardController.clear();
-                          selectedCategory = null;
-                          image = null;
-                          // billimage = null;
+                        nameController.clear();
+                        dateController.clear();
+                        locationController.clear();
+                        mapLocationController.clear();
+                        descriptionController.clear();
+                        rewardController.clear();
+                        selectedCategory = null;
+                        image = null;
+                        // billimage = null;
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Data Added"),
-                            ),
-                          );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Data Added"),
+                          ),
+                        );
 
-                          QuerySnapshot response = await FirebaseFirestore
-                              .instance
-                              .collection("lostItemsInfo")
-                              .get();
+                        QuerySnapshot response = await FirebaseFirestore
+                            .instance
+                            .collection("lostItemsInfo")
+                            .get();
 
-                          // log(response as String);
-                          lostCards.clear();
-                          for (var value in response.docs) {
-                            // print(value['palyerName']);
-                            try {
-                              lostCards.add(
-                                LostModel(
-                                  id: value.id,
-                                  name: value['itemName'] ?? "Unknown",
-                                  category:
-                                      value['category'] ?? "Uncategorized",
-                                  date: value['date'] ?? "Unknown date",
-                                  location:
-                                      value['location'] ?? "Unknown location",
-                                  mapLocation: value['mapLocation'] ??
-                                      "Location not given",
-                                  description:
-                                      value['description'] ?? "No description",
-                                  number: value['mobileNumber'] ?? "No number",
-                                  url: value['lostImg'] ?? "",
-                                  billurl: value['billImg'].isEmpty ? "" :value["billImg"],
-                                  reward: value['reward'].isEmpty
-                                      ? "No Reward"
-                                      : value['reward'],
-                                ),
-                              );
-                            } catch (e) {
-                              log("Error processing document ${value.id}: $e");
-                            }
+                        // log(response as String);
+                        lostCards.clear();
+                        for (var value in response.docs) {
+                          // print(value['palyerName']);
+                          try {
+                            lostCards.add(
+                              LostModel(
+                                id: value.id,
+                                ownerName: value['ownerName'],
+                                name: value['itemName'] ?? "Unknown",
+                                category: value['category'] ?? "Uncategorized",
+                                date: value['date'] ?? "Unknown date",
+                                location:
+                                    value['location'] ?? "Unknown location",
+                                mapLocation: value['mapLocation'] ??
+                                    "Location not given",
+                                description:
+                                    value['description'] ?? "No description",
+                                email: value['email'] ?? "No email",
+                                number: value['mobileNumber'] ?? "No number",
+                                url: value['lostImg'] ?? "",
+                                billurl: value['billImg'].isEmpty
+                                    ? ""
+                                    : value["billImg"],
+                                reward: value['reward'].isEmpty
+                                    ? "No Reward"
+                                    : value['reward'],
+                              ),
+                            );
+                          } catch (e) {
+                            log("Error processing document ${value.id}: $e");
                           }
+                        }
                         // }
                       },
                       child: Container(

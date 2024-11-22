@@ -164,7 +164,7 @@ class _DescriptionPageState extends State<DescriptionPage> {
                       child: TabBarView(
                         children: [
                           ItemDetails(temp: lostCards, index: globalIndex ?? 0),
-                          const OwnerDetails(),
+                          OwnerDetails(temp: lostCards, index: globalIndex ?? 0),
                         ],
                       ),
                     ),

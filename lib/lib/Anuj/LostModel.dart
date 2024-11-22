@@ -25,6 +25,8 @@ class LostModel {
   final String mapLocation;
   final String description;
   String? number;
+  String ownerName;
+  String email;
   String billurl;
   String url;
   String? reward;
@@ -38,6 +40,8 @@ class LostModel {
     required this.mapLocation,
     required this.description,
     this.number,
+    required this.ownerName,
+    required this.email,
     required this.billurl,
     required this.url,
     this.reward,
