@@ -25,11 +25,11 @@ class OwnerDetails extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DetailRow(title: "Name", value: temp[index].ownerName),
+            DetailRow(title: "Name", value: temp[index].ownerName.toString()),
             const Divider(),
-            DetailRow(title: "Contact", value: temp[index].mobileNumber),
+            DetailRow(title: "Contact", value: temp[index].number.toString()),
             const Divider(),
-            DetailRow(title: "E-mail", value: temp[index].email),
+            DetailRow(title: "E-mail", value: temp[index].email.toString()),
           ],
         ),
       ),
