@@ -8,9 +8,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import '../Kaushal/Found Page/found_list.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'FoundModel.dart';
 
 class ReportFoundItemPage extends StatelessWidget {
@@ -36,7 +39,12 @@ class _ReportFoundState extends State<ReportFound>
   String? categoryController;
   TextEditingController descriptionController = TextEditingController();
   TextEditingController locationController = TextEditingController();
+  TextEditingController mapLocationController = TextEditingController();
   TextEditingController numberController = TextEditingController();
+
+  GoogleMapController? _controller;
+  LatLng? _pickedLocation;
+  String address = '';
 
   String? selectedCategory;
   final List<String> _categories = [
@@ -59,6 +67,133 @@ class _ReportFoundState extends State<ReportFound>
     if (pickedFile != null) {
       setState(() {
         image = File(pickedFile.path);
+      });
+    }
+  }
+
+  // Function to open map dialog and get the current location
+  Future<void> _openMapDialog() async {
+    Position position = await _getCurrentPosition();
+    LatLng currentPosition = LatLng(position.latitude, position.longitude);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Container(
+            height: 400,
+            child: Column(
+              children: [
+                Expanded(
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: currentPosition,
+                      zoom: 15,
+                    ),
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller = controller;
+                    },
+                    onTap: (LatLng latLng) async {
+                      setState(() {
+                        _pickedLocation = latLng;
+                      });
+                      await _fetchAddress(latLng);
+                    },
+                    markers: _pickedLocation == null
+                        ? Set()
+                        : {
+                            Marker(
+                              markerId: MarkerId("pickedLocation"),
+                              position: _pickedLocation!,
+                            ),
+                          },
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_pickedLocation != null) {
+                          Navigator.pop(context);
+                          setState(() {
+                            mapLocationController.text = address;
+                          });
+                        }
+                      },
+                      child: Text("Select Location"),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // Function to get current position
+  Future<Position> _getCurrentPosition() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (!serviceEnabled) {
+      await Geolocator.requestPermission();
+    } else if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      await Geolocator.requestPermission();
+    }
+
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
+  Future<void> _fetchAddress(LatLng latLng) async {
+    try {
+      // Fetch the list of placemarks from the given latitude and longitude
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
+
+      if (placemarks.isNotEmpty) {
+        // Get the first result (usually, the most relevant address)
+        Placemark place = placemarks[0];
+
+        // Initialize an empty string to hold the full street address
+        String fullStreetAddress = '';
+
+        // Combine street number and street name if available
+        if (place.subThoroughfare != null) {
+          fullStreetAddress +=
+              place.subThoroughfare! + " "; // Street number (if exists)
+        }
+        if (place.thoroughfare != null) {
+          fullStreetAddress += place.thoroughfare!; // Street name
+        }
+
+        // Format the address with locality, administrative area, and country
+        String detailedAddress =
+            '$fullStreetAddress, ${place.locality}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}';
+
+        // Clean up any trailing commas or null values
+        String briefAddress = detailedAddress.replaceAll(
+            RegExp(r',\s*$'), ''); // Trim trailing commas
+
+        setState(() {
+          address =
+              briefAddress; // Store the fetched address in the _address variable
+        });
+      }
+    } catch (e) {
+      setState(() {
+        address =
+            'Address not found'; // In case of error, set a default message
       });
     }
   }
@@ -213,6 +348,36 @@ class _ReportFoundState extends State<ReportFound>
                               ),
                             ),
                           ),
+
+                          // Location Lost
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(color: Colors.grey[100]!),
+                              ),
+                            ),
+                            child: TextField(
+                              controller: mapLocationController,
+                              readOnly: true,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                labelText: "Location Lost",
+                                labelStyle: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: const Icon(
+                                    Icons.location_on,
+                                    size: 30,
+                                  ),
+                                  onPressed: _openMapDialog,
+                                ),
+                              ),
+                            ),
+                          ),
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
@@ -243,6 +408,8 @@ class _ReportFoundState extends State<ReportFound>
                               ),
                             ),
                           ),
+
+
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
@@ -386,6 +553,7 @@ class _ReportFoundState extends State<ReportFound>
                             "location": locationController.text.trim(),
                             "description": descriptionController.text.trim(),
                             "mobileNumber": numberController.text.trim(),
+                            "maplocation": mapLocationController.text.trim(),
                             // "ownerEmail" : ,
                             "foundImg": url,
                           };
