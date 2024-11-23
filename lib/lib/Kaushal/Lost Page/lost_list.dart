@@ -69,7 +69,7 @@ class _LostPageState extends State<LostPage> {
             location: value['location'] ?? "Unknown location",
             description: value['description'] ?? "No description",
             mapLocation: value['mapLocation'] ?? "Location not given",
-            email: value['email'] ?? "No email",
+            email: value['ownerEmail'] ?? "No email",
             number: value['mobileNumber'] ?? "No number",
             url: value['lostImg'] ?? "",
             billurl: value['billImg'].isEmpty ? "" : value["billImg"],

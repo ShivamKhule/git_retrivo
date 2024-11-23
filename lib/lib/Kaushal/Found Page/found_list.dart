@@ -4,9 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../Anuj/FoundModel.dart';
 import '../Category/category_description.dart';
 // import '../Decription Page/description.dart';
-import '../Decription Page/description_ui.dart'; // Assuming this is where you show the details
-import 'Found_Model.dart';
-import 'package:git_retrivo/lib/Kaushal/Category/category_description.dart';
+// Assuming this is where you show the details
 
 List<FoundModel> foundCards = [];
 List<FoundModel> filteredCards = [];

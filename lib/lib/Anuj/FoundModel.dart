@@ -26,7 +26,7 @@ class FoundModel {
   final String location;
   final String description;
   final String number;
-  String? ownerName;
+  String ownerName;
   String? email;
   String? mapLocation;
   String? url;
@@ -42,7 +42,7 @@ class FoundModel {
     required this.description,
     required this.number,
     this.email,
-    this.ownerName,
+    required this.ownerName,
     this.mapLocation,
     this.url,
     this.billurl,

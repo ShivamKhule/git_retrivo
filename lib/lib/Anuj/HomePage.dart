@@ -174,7 +174,7 @@ class AppbarClassState extends State<HomepageClass> {
           name: value['itemName'],
           category: value['category'],
           date: value['date'],
-          // ownerName: value['reporterName'],
+          ownerName: value['ownerName'],
           // email: value['email'] ?? "No email",
           location: value['location'],
           description: value['description'],

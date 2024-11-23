@@ -386,6 +386,7 @@ class _ReportFoundState extends State<ReportFound>
                             "location": locationController.text.trim(),
                             "description": descriptionController.text.trim(),
                             "mobileNumber": numberController.text.trim(),
+                            // "ownerEmail" : ,
                             "foundImg": url,
                           };
 
@@ -425,8 +426,8 @@ class _ReportFoundState extends State<ReportFound>
                             foundCards.add(
                               FoundModel(
                                 id: value.id,
-                                // ownerName: value['reporterName'],
-                                // email: value['email'] ?? "No email",
+                                ownerName: value['ownerName'],
+                                email: value['ownerEmail'] ?? "No email",
                                 name: value['itemName'],
                                 category: value['category'],
                                 date: value['date'],

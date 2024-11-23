@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:git_retrivo/lib/Anuj/LostModel.dart';
-import 'package:git_retrivo/lib/Kaushal/Category/category_list.dart';
-import 'package:git_retrivo/lib/Kaushal/Found%20Page/found_list.dart';
-import 'package:git_retrivo/lib/Kaushal/Lost%20Page/lost_list.dart';
 
 import '../Decription Page/Owner_Details.dart';
 import 'category_Item_Details.dart';

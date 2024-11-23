@@ -658,6 +658,7 @@ class _ReportFoundState extends State<ReportLost>
                           "reward": rewardController.text.trim(),
                           "maplocation": mapLocationController.text.trim(),
                           // "billImg" : billurl,
+                          // "ownerEmail" : ,
                           "lostImg": url,
                         };
 
